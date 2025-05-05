@@ -8,8 +8,8 @@ import java.sql.Statement;
 public class DbConnect {
 	
 	private String url = "jdbc:postgresql://localhost/BookReccomenderDB";
-	private String user = "postgres";
-	private String password = "Ceriano71";
+	private String user = "entry";
+	private String password = "pass";
 	
 	
 	public Statement connect()
