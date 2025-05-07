@@ -46,4 +46,54 @@ public class DbInsert extends DbConnect {
 			e.printStackTrace();
 		}
 	}
+	
+	public void loadConsigli(int idlibro, String idcf) {
+		
+		try {
+			query = "insert into public.\"Consigli\" values (";
+			query = query + "'" + idlibro + "',";
+			query = query + "'" + idcf + "')";
+			statement.executeQuery(query);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadLibrerie(int codLibreria, String nomeLibreria, int idLibro, String idcf) {
+		
+		try {
+			query = "insert into public.\"Librerie\" values (";
+			query = query + "'" + codLibreria + "',";
+			query = query + "'" + nomeLibreria + "',";
+			query = query + "'" + idLibro + "',";
+			query = query + "'" + idcf + "')";
+			statement.executeQuery(query);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadValutazioni(int idLibro, String idcf, int stile, int contenuto, int gradevolezza, int originalita, int edizione, int votoF) {
+		
+		try {
+			query = "insert into public.\"Valutazioni\" values (";
+			query = query + "'" + idLibro + "',";
+			query = query + "'" + idcf + "',";
+			query = query + "'" + stile + "',";
+			query = query + "'" + contenuto + "',";
+			query = query + "'" + gradevolezza + "',";
+			query = query + "'" + originalita + "',";
+			query = query + "'" + edizione + "',";
+			query = query + "'" + votoF + "')";
+			statement.executeQuery(query);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
