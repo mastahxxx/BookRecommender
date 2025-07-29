@@ -3,13 +3,11 @@ package ServerBR;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Dbquery extends DbConnect {
+public class Dbquery extends DataBase {
 
 	
 	public void queryProva()
 	{
-		DbConnect dbconnect = new DbConnect();
-		Statement statement = dbconnect.connect();
 		try {
 			
 			ResultSet result = statement.executeQuery("SELECT nome FROM public.\"UtentiRegistrati\"");

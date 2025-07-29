@@ -3,11 +3,16 @@ package ServerBR;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class DbInsert extends DbConnect {
+public class DbInsert extends DataBase {
 	
-	private DbConnect dbconnect = new DbConnect();
-	private Statement statement = dbconnect.connect();
+	
+	//private Statement statement = dbconnect.connect();
 	private String query;
+	
+	public DbInsert()
+	{
+		super();
+	}
 
 	
 	public void loadUtentiRegistrati(String nome, String cognome, String cf, String email, String uid, String password)

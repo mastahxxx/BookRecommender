@@ -1,5 +1,5 @@
 package ServerBR;
 
-public class DbUpdate extends DbConnect {
+public class DbUpdate extends DataBase {
 
 }

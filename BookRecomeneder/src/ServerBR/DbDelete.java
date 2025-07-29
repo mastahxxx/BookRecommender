@@ -1,5 +1,5 @@
 package ServerBR;
 
-public class DbDelete extends DbConnect {
+public class DbDelete extends DataBase {
 
 }
