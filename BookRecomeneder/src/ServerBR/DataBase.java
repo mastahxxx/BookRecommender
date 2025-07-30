@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 
 public class DataBase {
 	
-	private String url = "jdbc:postgresql://localhost/BookReccomenderDB";
-	private String user = "entry";
-	private String password = "pass";
+	protected String url = "jdbc:postgresql://localhost/BookReccomenderDB";
+	protected String user = "entry";
+	protected String password = "pass";
 	protected Statement statement; 
 	
 	
