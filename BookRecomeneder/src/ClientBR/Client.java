@@ -1,15 +1,13 @@
 package ClientBR;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.
-
 import ClassiCondivise.Libreria;
 import ClassiCondivise.Libro;
 import ClassiCondivise.UtenteRegistrato;
+import ServerBR.DataBase;
 
 public class Client {
     private DataBase db;
@@ -28,7 +26,7 @@ public class Client {
         }
     }
 
-    public exec(){
+    public void exec(){
         InetAddress addr = InetAddress.getByName(null);
         Socket clientSocket = new Socket(addr, 8080);
         System.out.println();
