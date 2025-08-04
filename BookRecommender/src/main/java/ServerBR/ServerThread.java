@@ -43,11 +43,11 @@ public class ServerThread extends Thread {
                         out.writeObject(l2);
                     case "CONSULTA REPOSITORY AUTORE":
                         Libro l = (Libro) in.readObject();
-                        Libro l2 = db.cercaLibroPerTitolo(l);
+                        Libro l2 = db.cercaLibroPerAutore(l);
                         out.writeObject(l2);
                     case "CONSULTA REPOSITORY ANNO E AUTORE":
                         Libro l = (Libro) in.readObject();
-                        Libro l2 = db.cercaLibroPerTitolo(l);
+                        Libro l2 = db.cercaLibroPerAutoreAnno(l);
                         out.writeObject(l2);
 
                     case "Registrazine":

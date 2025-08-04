@@ -77,15 +77,15 @@ public class Libro {
 
 
 
-    public void SetTitolo(String titolo) {
+    public void setTitolo(String titolo) {
         this.titolo = titolo;
     }
 
-    public void getAutore(String autore) {
+    public void setAutore(String autore) {
         this.autore = autore;
     }
 
-    public void getAnnoPublicazione(String annoPublicazione) {
+    public void setAnnoPublicazione(String annoPublicazione) {
         this.annoPubblicazione = annoPublicazione;
     }
 
@@ -105,7 +105,7 @@ public class Libro {
         this.originalita = valutazione;
     }
 
-    public void seteEdizione(int valutazione) {
+    public void setEdizione(int valutazione) {
         this.edizione = valutazione;
     }
 
@@ -121,7 +121,7 @@ public class Libro {
         this.noteGradevolezza = noteGradevolezza;
     }
 
-    public void setNoteOriginalità(String noteOriginalita) {
+    public void setNoteOriginalita(String noteOriginalita) {
         this.noteOriginalita = noteOriginalita;
     }
 

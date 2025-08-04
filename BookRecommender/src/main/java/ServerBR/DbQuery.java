@@ -38,7 +38,7 @@ public class DbQuery extends DataBase {
         ResultSet result;
         result = null;
         String query;
-        query = "select * from public.\"Libri\" where titolo = ? or autore = ?;";
+        query = "select * from public.\"Libri\" where titolo = ? or autore = ?;"; // manca la ricerca per autore e anno insieme
 
         try {
             PreparedStatement pstm = connection.prepareStatement(query);
@@ -52,8 +52,9 @@ public class DbQuery extends DataBase {
         {
             e.printStackTrace();
         }
-
-        return result;
+        //fammi ritornare una stringa al posto di un oggetto di tipo ResultSet se possibile inoltre ogni attributo è separato da punto e virgola
+        //Se il libro eventualmente non essitesse fammi tornare una stringa vuota
+        return result;  
     }
 
 
