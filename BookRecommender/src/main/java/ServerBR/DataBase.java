@@ -47,13 +47,14 @@ public class DataBase {
     		
     }
     
-    public synchronized Libro cercaLibroPerAutore(l) {
+    public synchronized LinkedList<Libro> cercaLibroPerAutore(l) {
     	int count  = 0;
-    	String result;
+    	LinkedList <Libro> result = new LinkedList<Libro>();
     	Libro libro;
     	String autore = l.getAutore();
-    	String result  = dbq.libriLibro(auore);	
+    	result  = dbq.libriLibro(auore);	
     	Libro libro = this.impostaParametriLibro(libro, result);
+    	
     	return libro;		
     }
     
@@ -62,7 +63,7 @@ public class DataBase {
     	String result;
     	String autore = l.getAutore();
     	String anno = l.getAnnoPublicazione();
-    	String result  = dbq.libriLibro(auore);	
+    	String result  = dbq.libriLibro(auore, anno);	
     	Libro libro = this.impostaParametriLibro(libro, result);
     	return libro;		
     }
