@@ -37,61 +37,51 @@ public class DataBase {
     }
     
     public synchronized Libro cercaLibroPerTitolo(l) {
-    	int count  = 0;
-    	String result;
     	Libro libro;
     	String titolo = l.getTitolo();
-    	String result  = dbq.libriLibro(titolo);	
-    	Libro libro = this.impostaParametriLibro(libro, result);
+    	Libro libro  = dbq.libriLibro(titolo);	
     	return libro;
     		
     }
     
     public synchronized LinkedList<Libro> cercaLibroPerAutore(l) {
-    	int count  = 0;
-    	LinkedList <Libro> result = new LinkedList<Libro>();
+    	LinkedList <Libro> result = new LinkedList<Libro>(); //utillizzo una LinkedList perchè potrebbero esserci più libri scritti dallo stesso autore
     	Libro libro;
     	String autore = l.getAutore();
-    	result  = dbq.libriLibro(auore);	
-    	Libro libro = this.impostaParametriLibro(libro, result);
+    	result  = dbq.libriAutore(auore); //creare query per la ricerca dei libri in base al nome dell'autore e far ritornare una linkedList di libri
     	
     	return libro;		
     }
     
     public synchronized Libro cercaLibroPerAutoreAnno(l) {
-    	int count  = 0;
-    	String result;
     	String autore = l.getAutore();
     	String anno = l.getAnnoPublicazione();
-    	String result  = dbq.libriLibro(auore, anno);	
-    	Libro libro = this.impostaParametriLibro(libro, result);
+    	Libro result  = dbq.libriAutoreAnno(auore, anno);	// creare query che restituiscse i libri ricercati per auore e anno
     	return libro;		
     }
     
-    private synchronized Libro impostaParametriLibro(Libro l, String result) {
-    	Libro libro;
-    	String r = result.split(";");
-    	if(!result.eqauls("")) {
-    		libro.setTitolo(r[]);
-    		libro.setAutore(r[]);
-    		libro.setAnnoPublicazione(r[]);
-    		libro.setStile(r[])
-    		libro.setContenuto(r[]);
-    		libro.setGradevolezza(r[]);
-    		libro.setsetOriginalita(r[]);
-    		libro.setEdizione(r[]);
-    		libro.setNoteStile(r[]);
-    		libro.setNoteContenuto(r[]);
-    		libro.setNoteGradevolezza(r[]);
-    		libro.setNoteOriginalita(r[]);
-    		libro.setNoteEdizione(r[]);
-    		libro.setControllo(true);
-    		//bisogna gestire i libri consigliuati per il libro ricercato dal client
-    	}
-    	else {
-    		libro.setControllo(false);
-    	}
-		
-		return libro;
+    public synchronized boolean insertUtente(UtenteRegistrato u) {
+    	String nomeCognome = u.getNomeCognome();
+    	String codiceFiscale = u.getCodiceFiscale();
+    	String mail = u.getmail();
+    	String user = u.getUserId();
+    	String password = u.getPassoword();
+    	boolean esito = dbi.inserisciUtente(nomecognome, codiceFiscale, mail, user, password); //metodo ceh deve controllare se la mail e lo userId esistono già nel db; in caso di esito negativo l'utente viene inserito all'interno del db
+    	return esito;
     }
+    
+    public synchronized boolean login(UtenteRegistrato u) {
+    	String mail = u.getmail();
+    	String password = u.getPassoword();
+    	boolean esito = dbq.loginMail(mail, password);;//metodo che controlla il login tramite mail; Se il login va a buon fine restituisce true
+    	if(!esito) {
+    		String userId = u.getUserId();
+    		esito = dbq.loginUserId(userId, password);///metodo che controlla il login tramite mail; Se il login va a buon fine restituisce true
+    	}
+    	return esito;
+    }
+    
+    
+    
+    
 }

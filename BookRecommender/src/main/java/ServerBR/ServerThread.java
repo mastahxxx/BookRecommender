@@ -34,6 +34,7 @@ public class ServerThread extends Thread {
                 Libro l;
                 Libreria libreria = new Libreria();
                 UtenteRegistrato u;
+                boolean esito;
                 switch(request) {
                     case "END":
                         break;
@@ -52,9 +53,15 @@ public class ServerThread extends Thread {
 
                     case "Registrazine":
                         u = (UtenteRegistrato) in.readObject();
-                        db.insertUtente(u);
+                        esito = db.insertUtente(u);
+                        out.writeObject(esito);
                         break;
-
+                    case "LOGIN":
+                    	u = (UtenteRegistrato) in.readObject();
+                    	esito = db.login(u);
+                        out.writeObject(esito);
+                        break;
+               
                     case "INSETISCI VALUTAZIONE":
                         l = (Libro) in.readObject();
                         db.iserisciValutazioni(l);

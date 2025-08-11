@@ -56,6 +56,35 @@ public class DbQuery extends DataBase {
         //Se il libro eventualmente non essitesse fammi tornare una stringa vuota
         return result;  
     }
+    
+    //Andre utilizza questo metodo per impostare i libri 
+    private Libro impostaParametriLibro(Libro l, String result) {
+    	Libro libro;
+    	String r = result.split(";");
+    	if(!result.eqauls("")) {
+    		//mancano i numeri della posizione del vettore perchè non so in che posizioone finiscono i vari valori
+    		libro.setTitolo(r[]);
+    		libro.setAutore(r[]);
+    		libro.setAnnoPublicazione(r[]);
+    		libro.setStile(r[])
+    		libro.setContenuto(r[]);
+    		libro.setGradevolezza(r[]);
+    		libro.setsetOriginalita(r[]);
+    		libro.setEdizione(r[]);
+    		libro.setNoteStile(r[]);
+    		libro.setNoteContenuto(r[]);
+    		libro.setNoteGradevolezza(r[]);
+    		libro.setNoteOriginalita(r[]);
+    		libro.setNoteEdizione(r[]);
+    		libro.setControllo(true);
+    		//bisogna gestire i libri consigliuati per il libro ricercato dal client
+    	}
+    	else {
+    		libro.setControllo(false);
+    	}
+		
+		return libro;
+    }
 
 
 }
