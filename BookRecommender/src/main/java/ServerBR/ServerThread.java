@@ -64,7 +64,8 @@ public class ServerThread extends Thread {
                
                     case "INSETISCI VALUTAZIONE":
                         l = (Libro) in.readObject();
-                        db.iserisciValutazioni(l);
+                        esito = db.iserisciValutazioni(l);
+                        out.writeObject(esito);
                         break;
 
                     case "REGISTRA LIBRERIA":

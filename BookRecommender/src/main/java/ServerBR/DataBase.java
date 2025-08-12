@@ -3,6 +3,9 @@ package ServerBR;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+
+import BookRecommender.src.main.java.ClassiCondivise.String;
+
 import java.sql.ResultSet;
 
 public class DataBase {
@@ -80,6 +83,32 @@ public class DataBase {
     	}
     	return esito;
     }
+    
+    public synchronized boolean iserisciValutazioni(Libro l) {
+    	String titolo = l.getTitolo();
+    	int contenuto = l.getContenuto();
+    	int stile = l.getTitolo();
+    	int gadevolezza = l.getgradevolezza();
+    	int originalita = l.getOriginalita();
+    	int edizione = l.getEdizione();
+    	String noteContenuto = l.getNoteStile();
+    	String noteStile = l.getNoteContenuto();
+    	String noteGradevolezza = l.getNoteGradevolezza();
+    	String noteOriginalita = l.getNoteOriginalità();
+    	String noteEdizione = l.getNoteEdizione();
+    	boolean controllo = dbi.inserisciValutazioneDb(titolo, contenuto, stile, gadevolezza, originalita, edizione, noteContenuto, noteStile, noteGradevolezza, noteOriginalita, noteEdizione);
+    	//metodo che inserisci le valutazione di un utente nel db e restituisce true in caso di esito posito altrimenti false
+    	return controllo;
+    }
+    
+    public synchronized boolean InserisciLibreria(Libreria libreria) {
+    	String nome = libreria.getNome();
+    	LinkedList contenuto = libreria.getContenuto();
+    	boolean controllo = dbi.InserisciLibreriaDb(nome, contenuto); //metrodo che inserisci la libreira creata dall'utente nel db; in caso di esito positivo restituisce true altrimenti flase
+    	return controllo;
+    }
+    
+    
     
     
     
