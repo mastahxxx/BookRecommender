@@ -108,9 +108,14 @@ public class DataBase {
     	return controllo;
     }
     
-    
-    
-    
-    
+    public synchronized boolean InserisciConsigli(UtenteRegistrato u, String libriConsigliati) {
+    	String[] vettConsigliati = libriConsigliati.split(";"); //vettore che avrà max dim 4; in pos 0 contiene il tittolo del libro su cui l'utente starà effettuando i consigli mentre nelle rimanente ci saranno i libri consigliati
+    	boolean controllo = dbq.controllaLibroInLibreria(u, vettConsigliati[0]); //metodo che controlla se il libro è presente nelle librerie dell'utente; se è presente restituisce true altrimenti flase
+    	boolean esito = false;
+    	if(controllo) {
+    		esito = dbi.inserisciLibriConsigliatiInDb(u, vettConsigliati); //metodo che inserisce i libri consigliati nel db e restitusice true in caso di esito positivo altrimenti false 
+    	}
+    	return esito;
+    }   
     
 }
