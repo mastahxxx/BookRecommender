@@ -13,11 +13,16 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/home.fxml")); // FXML nella cartella resources
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Book Recommender");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage primaryStage) {
+        SceneNavigator.setStage(primaryStage);
+        boolean ok = SceneNavigator.switchToHome();
+
+    if (!ok) {
+         System.exit(1);
+     }
+
+    primaryStage.setTitle("BookRecommender");
+    primaryStage.show();
+       
     }
 }

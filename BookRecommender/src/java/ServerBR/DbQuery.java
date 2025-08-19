@@ -1,3 +1,4 @@
+
 package ServerBR;
 
 import java.sql.*;
@@ -58,6 +59,7 @@ public class DbQuery extends DataBase {
     }
     
     //Andre utilizza questo metodo per impostare i libri 
+    /* 
     private Libro impostaParametriLibro(Libro l, String result) {
     	Libro libro;
     	String r = result.split(";");
@@ -86,5 +88,5 @@ public class DbQuery extends DataBase {
 		return libro;
     }
 
-
+*/
 }

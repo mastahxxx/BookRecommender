@@ -1,3 +1,4 @@
+
 package ServerBR;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class ServerThread extends Thread {
 
         }
     }
-
+/* 
     public void run() {
         try {
             while(true) {
@@ -92,4 +93,7 @@ public class ServerThread extends Thread {
 
     }
 
+*/
+
 }
+

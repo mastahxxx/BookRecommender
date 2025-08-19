@@ -3,7 +3,7 @@ package ClassiCondivise;
 public class UtenteRegistrato extends Utente{
 
     private String nomeCognome;
-    private String CodiceFiscale;
+    private String codiceFiscale;
     private String mail;
     private String userId;
     private String password;
@@ -14,7 +14,7 @@ public class UtenteRegistrato extends Utente{
     }
 
     public String getCodiceFiscale() {
-    	return this.CodiceFiscale;
+    	return this.codiceFiscale;
     }
     public String getmail() {
         return this.mail;

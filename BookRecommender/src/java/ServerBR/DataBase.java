@@ -1,10 +1,12 @@
+
+
 package ServerBR;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-import BookRecommender.src.main.java.ClassiCondivise.String;
+//import BookRecommender.src.main.java.ClassiCondivise.String;
 
 import java.sql.ResultSet;
 
@@ -39,24 +41,24 @@ public class DataBase {
         
     }
     
-    public synchronized Libro cercaLibroPerTitolo(l) {
-    	Libro libro;
-    	String titolo = l.getTitolo();
-    	Libro libro  = dbq.libriLibro(titolo);	
-    	return libro;
+//    public synchronized Libro cercaLibroPerTitolo(l) {
+//    	Libro libro;
+//    	String titolo = l.getTitolo();
+//    	Libro libro  = dbq.libriLibro(titolo);	
+//    	return libro;
     		
-    }
+//  }
     
-    public synchronized LinkedList<Libro> cercaLibroPerAutore(l) {
-    	LinkedList <Libro> result = new LinkedList<Libro>(); //utillizzo una LinkedList perchè potrebbero esserci più libri scritti dallo stesso autore
-    	Libro libro;
-    	String autore = l.getAutore();
-    	result  = dbq.libriAutore(auore); //creare query per la ricerca dei libri in base al nome dell'autore e far ritornare una linkedList di libri
-    	
-    	return libro;		
-    }
+//    public synchronized LinkedList<Libro> cercaLibroPerAutore(l) {
+//    	LinkedList <Libro> result = new LinkedList<Libro>(); //utillizzo una LinkedList perchè potrebbero esserci più libri scritti dallo stesso autore
+//    	Libro libro;
+//    	String autore = l.getAutore();
+//    	result  = dbq.libriAutore(auore); //creare query per la ricerca dei libri in base al nome dell'autore e far ritornare una linkedList di libri
+//    	
+//    	return libro;		
+//    }
     
-    public synchronized Libro cercaLibroPerAutoreAnno(l) {
+   /*   public synchronized Libro cercaLibroPerAutoreAnno(l) {
     	String autore = l.getAutore();
     	String anno = l.getAnnoPublicazione();
     	Libro result  = dbq.libriAutoreAnno(auore, anno);	// creare query che restituiscse i libri ricercati per auore e anno
@@ -116,6 +118,6 @@ public class DataBase {
     		esito = dbi.inserisciLibriConsigliatiInDb(u, vettConsigliati); //metodo che inserisce i libri consigliati nel db e restitusice true in caso di esito positivo altrimenti false 
     	}
     	return esito;
-    }   
+    }   */
     
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ClientBR.HomeController"
+      spacing="10">
+    <padding>
+        <!-- Imposta tutti e 4 i lati a 10 -->
+        <Insets topRightBottomLeft="10"/>
+        <!-- In alternativa:
+        <Insets top="10" right="10" bottom="10" left="10"/>
+        -->
+    </padding>
+
+    <children>
+        <Label fx:id="title" text="Home"/>
+        <Button text="Cliccami" onAction="#onClick"/>
+    </children>
+</VBox>

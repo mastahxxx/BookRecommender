@@ -1,3 +1,4 @@
+
 package ClientBR;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -7,7 +8,7 @@ import java.net.Socket;
 
 import ServerBR.DataBase;
 
-public class Client {
+public class Client {  
     private DataBase db;
     private ObjectInputStream in;
     private ObjectOutputStream out;
@@ -24,9 +25,9 @@ public class Client {
         }
     }
 
-    public void exec(){
+  /*   public void exec(){
         InetAddress addr = InetAddress.getByName(null);
         Socket clientSocket = new Socket(addr, 8080);
         System.out.println();
-    }
+    } */
 }
