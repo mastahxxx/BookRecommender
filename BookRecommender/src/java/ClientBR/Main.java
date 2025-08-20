@@ -1,5 +1,7 @@
 package ClientBR;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,16 +15,12 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        SceneNavigator.setStage(primaryStage);
-        boolean ok = SceneNavigator.switchToHome();
-
-    if (!ok) {
-         System.exit(1);
-     }
-
-    primaryStage.setTitle("BookRecommender");
-    primaryStage.show();
-       
+    public void start(Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/home.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        stage.setTitle("Book Recommender");
+        stage.setScene(scene);
+        stage.show();
     }
 }

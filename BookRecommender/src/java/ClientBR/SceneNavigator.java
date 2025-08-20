@@ -20,12 +20,11 @@ private static final String BASE_PATH = "BookRecommender/src/resources/views/";
         stage = s;
     }
 
-    // permette di rimpiazzare la scena corrente con una nuova stabilita dal parametro, return true se tutto ok, false se c è stato un errore, eventuali errori vengono mostrati con un Alert
-    public static boolean switchTo(String fxml) { 
+    // permette di rimpiazzare la scena corrente con una nuova stabilita dal parametro, eventuali errori vengono mostrati con un Alert
+    public static void switchTo(String fxml) { 
         if (stage == null) {
             showError("Stage non iniziallizzato.");
             System.exit(1);
-            return false;
           }
 
           // risolviamo l' URL della risorsa e controlliao che esista
@@ -34,32 +33,32 @@ private static final String BASE_PATH = "BookRecommender/src/resources/views/";
             if (url == null) {
                 showError("View non trovata: \n" + BASE_PATH + fxml  );
                 System.exit(1);
-                return false;
                 }
 
             // carica l' FXML della nuova scena
             Parent root = FXMLLoader.load(url);
             stage.setScene(new Scene(root));
             stage.show();
-            return true;
 
         } catch (Exception e) { // Qualsiasi altro errore non gestito precedentemente (errori nel fxml, errori nel controller ecc..)
             showError("Impossibile aprire la schermata");
             System.exit(1);
-            return false;
         }
         
     }
 
-
-
-
-
-
     // scorciatoie per la navigazione dei controller
-    public static boolean switchToHome() { return switchTo("home.fxml"); }
-    public static boolean switchToLogin() { return switchTo("login.fxml"); }
-    public static boolean switchToRegister() { return switchTo("register.fxml"); }
+    public static void switchToHome() {switchTo("home.fxml");}
+    public static void switchToLogin() {switchTo("login.fxml");}
+    public static void switchToRegister() {switchTo("register.fxml");}
+    public static void switchToCercaLibri() {switchTo("cercaLibri.fxml");}
+
+
+    //scorciatoria per chiudere il programma
+    public static void Esci(){
+        System.exit(0);
+    }
+
 
 
 
