@@ -6,23 +6,33 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientBR.Controllers.HomeController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="251.0">
          <children>
-            <ImageView fitHeight="409.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../book_recommender_resized.png" />
-               </image>
-            </ImageView>
+            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="409.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                     <image>
+                        <Image url="@../assets/home.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #d9d9d9;">
          <children>
-            <Button fx:id="btnCercaLibri" layoutX="140.0" layoutY="80.0" mnemonicParsing="false" onAction="#onCercaLibri" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Cerca libri" />
-            <Button fx:id="btnAccedi" layoutX="140.0" layoutY="160.0" mnemonicParsing="false" onAction="#onAccedi" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Accedi" />
-            <Button fx:id="btnRegistrati" layoutX="140.0" layoutY="240.0" mnemonicParsing="false" onAction="#onRegistrati" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Registrati" />
-            <Button fx:id="btnEsci" layoutX="140.0" layoutY="320.0" mnemonicParsing="false" onAction="#onEsci" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="ESCI" textFill="#f50202" />
+            <VBox alignment="CENTER" fillWidth="false" layoutX="140.0" layoutY="80.0" spacing="32.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="btnCercaLibri" mnemonicParsing="false" onAction="#onCercaLibri" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Cerca libri" />
+                  <Button fx:id="btnAccedi" mnemonicParsing="false" onAction="#onAccedi" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Accedi" />
+                  <Button fx:id="btnRegistrati" mnemonicParsing="false" onAction="#onRegistrati" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Registrati" />
+                  <Button fx:id="btnEsci" mnemonicParsing="false" onAction="#onEsci" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="ESCI" textFill="#f50202" />
+               </children>
+            </VBox>
          </children></AnchorPane>
   </items>
    <padding>
