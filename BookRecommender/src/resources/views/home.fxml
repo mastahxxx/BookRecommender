@@ -30,7 +30,7 @@
                   <Button fx:id="btnCercaLibri" mnemonicParsing="false" onAction="#onCercaLibri" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Cerca libri" />
                   <Button fx:id="btnAccedi" mnemonicParsing="false" onAction="#onAccedi" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Accedi" />
                   <Button fx:id="btnRegistrati" mnemonicParsing="false" onAction="#onRegistrati" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Registrati" />
-                  <Button fx:id="btnEsci" mnemonicParsing="false" onAction="#onEsci" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="ESCI" textFill="#f50202" />
+                  <Button fx:id="btnEsci" mnemonicParsing="false" onAction="#onEsci" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #FF4D4D; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="ESCI" />
                </children>
             </VBox>
          </children></AnchorPane>

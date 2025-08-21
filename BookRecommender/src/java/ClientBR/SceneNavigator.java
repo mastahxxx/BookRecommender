@@ -13,7 +13,7 @@ import java.net.URL;
 public class SceneNavigator { 
 
 private static Stage stage;
-private static final String BASE_PATH = "BookRecommender/src/resources/views/";
+private static final String BASE_PATH = "/views/";
 
 
     public static void setStage(Stage s) {

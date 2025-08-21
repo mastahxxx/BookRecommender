@@ -1,26 +1,33 @@
 package ClientBR;
 
-import java.io.IOException;
-
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static void main(String[] args) {
-        launch(args);  // Avvia JavaFX
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            // 1) passa lo Stage al navigator (fondamentale per evitare "stage non inizializzato")
+            SceneNavigator.setStage(primaryStage);
+            primaryStage.setTitle("Book Recommender");
+            primaryStage.setMinWidth(640);
+            primaryStage.setMinHeight(480);
+
+            //mostra la scena iniziale tramite il navigator
+            SceneNavigator.switchToHome();
+
+            //chiusura
+            primaryStage.setOnCloseRequest(e -> Platform.exit());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Platform.exit();
+        }
     }
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/home.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 400);
-        stage.setTitle("Book Recommender");
-        stage.setScene(scene);
-        stage.show();
+    public static void main(String[] args) {
+        launch(args);
     }
 }
