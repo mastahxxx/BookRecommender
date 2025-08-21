@@ -61,10 +61,23 @@ public class RegisterController {
             return;
         }
 
+        if(!validEmail(email)) {
+            showError("email non valida");
+            return;
+        }
+
         if (!pswd.equals(pswd2)) {
             showError("le password non coincidono");
             return;
         }
+
+        if(!validPswd(pswd)) {
+            showError("password non valida: la password deve avere almeno 8 caratteri");
+            return;
+        }
+
+
+
 
 
         //TODO invio parametri al DB
@@ -113,6 +126,18 @@ private boolean validCF(String CF) {
 
 }
 
+//controllo password, almeno 8 caratteri, di qualsiasi tipo
+private boolean validPswd(String psw) {
+    return psw.matches("^.{8,}$");
+}
+
+//controllo mail basilare
+private boolean validEmail(String mail) {
+    return mail.matches(".+@.+\\..+" );  
+}
+
+//TODO private boolean emailAlreadyUsed
+//TODO private boolean UserIDAlreadyUsed
 
 
 
