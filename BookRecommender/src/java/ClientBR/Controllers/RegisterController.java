@@ -38,7 +38,8 @@ public class RegisterController {
         clearError();
     }
 
-    @FXML private void onConferma(){
+    @FXML private void onConferma(){ //qui tutti i dati vengono salvati nelle proprie stringhe e fatto qualche controllo, manca usare i dati ricavati
+        
         clearError();
 
         String nome = fNome.getText().trim();
