@@ -15,9 +15,9 @@
          <children>
             <TextField fx:id="fUserID" alignment="CENTER" prefHeight="26.0" prefWidth="552.0" promptText="&quot;UserID&quot;" />
             <PasswordField fx:id="pfPassword" alignment="CENTER" promptText="&quot;Password&quot;" />
-            <Button fx:id="btnAccedi" defaultButton="true" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-image-width: 1;" text="Accedi" />
-            <Button fx:id="btnRegistrati" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-image-width: 1;" text="Registrati" />
-            <Button fx:id="btnHome" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #FF4D4D; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-image-width: 1;" text="HOME" />
+            <Button fx:id="btnAccedi" defaultButton="true" mnemonicParsing="false" onAction="#onAccedi" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-image-width: 1;" text="Accedi" />
+            <Button fx:id="btnRegistrati" mnemonicParsing="false" onAction="#onRegistrati" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-image-width: 1;" text="Registrati" />
+            <Button fx:id="btnHome" mnemonicParsing="false" onAction="#onHome" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: #FF4D4D; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-image-width: 1;" text="HOME" />
          </children>
          <BorderPane.margin>
             <Insets bottom="30.0" left="30.0" right="30.0" />
@@ -35,7 +35,7 @@
       </Label>
    </top>
    <bottom>
-      <Label fx:id="lblError" alignment="CENTER" prefHeight="17.0" prefWidth="113.0" textFill="#fc0505" BorderPane.alignment="CENTER">
+      <Label fx:id="lblError" alignment="CENTER" prefHeight="17.0" prefWidth="491.0" text="&quot;Inserisci UserID e Password&quot;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" />
          </BorderPane.margin>

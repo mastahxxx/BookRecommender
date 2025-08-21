@@ -52,6 +52,8 @@ private static final String BASE_PATH = "/views/";
     public static void switchToLogin() {switchTo("login.fxml");}
     public static void switchToRegister() {switchTo("register.fxml");}
     public static void switchToCercaLibri() {switchTo("cercaLibri.fxml");}
+    public static void switchToUtenteRegistrato() {switchTo("utenteRegistrato.fxml");}
+
 
 
     //scorciatoria per chiudere il programma

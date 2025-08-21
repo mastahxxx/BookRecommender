@@ -67,7 +67,7 @@
             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
          </padding>
          <children>
-            <Button fx:id="btnTorna" mnemonicParsing="false" onAction="#onTorna" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #FF4D4D; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="HOME" />
+            <Button fx:id="btnTorna" mnemonicParsing="false" onAction="#onHome" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #FF4D4D; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="HOME" />
             <Button fx:id="btnAccedi" mnemonicParsing="false" onAction="#onAccedi" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Accedi" />
             <Button fx:id="btnConferma" defaultButton="true" mnemonicParsing="false" onAction="#onConferma" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Conferma" />
          </children>

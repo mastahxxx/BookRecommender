@@ -19,6 +19,40 @@ public class LoginController {
         Helpers.clearError(lblError);
     }
 
+    @FXML private void onRegistrati(){
+        SceneNavigator.switchToRegister();
+        Helpers.clearError(lblError);
+    }  
+
+    @FXML private void onHome() {
+        SceneNavigator.switchToHome();
+        Helpers.clearError(lblError);
+    }
+    
+    @FXML private void onAccedi() {
+
+        String userId = fUserID.getText().trim();
+        String pswd = pfPassword.getText();
+
+        if (!Helpers.validPswd(pswd)) {
+            Helpers.showError("La password devere essere di almeno 8 caratteri", lblError);
+            return;
+        }
+
+        //TODO: metodi per controllare password e userID
+
+        //STUB
+        boolean ok = true;
+        if (ok) {
+            SceneNavigator.switchToUtenteRegistrato();
+        }
+
+
+
+
+       
+    }
+
 
 
 

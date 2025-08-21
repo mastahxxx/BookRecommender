@@ -21,7 +21,7 @@ public class RegisterController {
     }
 
     //Bottoni torna, accedi e conferma
-    @FXML private void onTorna() {
+    @FXML private void onHome() {
         SceneNavigator.switchToHome();
         Helpers.clearError(lblError);
     }
