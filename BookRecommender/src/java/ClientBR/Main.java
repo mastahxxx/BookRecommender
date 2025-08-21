@@ -12,8 +12,8 @@ public class Main extends Application {
             // 1) passa lo Stage al navigator (fondamentale per evitare "stage non inizializzato")
             SceneNavigator.setStage(primaryStage);
             primaryStage.setTitle("Book Recommender");
-            primaryStage.setMinWidth(640);
-            primaryStage.setMinHeight(480);
+            primaryStage.setMinWidth(600);
+            primaryStage.setMinHeight(400);
 
             //mostra la scena iniziale tramite il navigator
             SceneNavigator.switchToHome();
