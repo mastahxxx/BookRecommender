@@ -76,6 +76,7 @@ public class RegisterController {
             return;
         }
 
+        //inserire metodi controllo mail e userid già registrati
 
 
 
@@ -131,13 +132,14 @@ private boolean validPswd(String psw) {
     return psw.matches("^.{8,}$");
 }
 
-//controllo mail basilare
+//controllo mail basilare, es: a@b.c
 private boolean validEmail(String mail) {
     return mail.matches(".+@.+\\..+" );  
 }
 
 //TODO private boolean emailAlreadyUsed
 //TODO private boolean UserIDAlreadyUsed
+
 
 
 
