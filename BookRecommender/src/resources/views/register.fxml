@@ -53,7 +53,7 @@
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="219.0" text="UserID" GridPane.rowIndex="4" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="219.0" text="PASSWORD" GridPane.rowIndex="5" />
             <TextField fx:id="fEmail" alignment="CENTER" promptText="&quot;nome@dominio.it&quot;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="fUserId" alignment="CENTER" promptText="&quot;UserID&quot;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="fUserID" alignment="CENTER" promptText="&quot;UserID&quot;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="219.0" text="CONFERMA PASSWORD" GridPane.rowIndex="6" />
             <PasswordField fx:id="pfPassword" alignment="CENTER" promptText="&quot;password&quot;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <PasswordField fx:id="pfConfermaPassword" alignment="CENTER" promptText="&quot;conferma password&quot;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
@@ -67,9 +67,9 @@
             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
          </padding>
          <children>
-            <Button fx:id="btnTorna" mnemonicParsing="false" onAction="#onTorna" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #FF4D4D; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="TORNA" />
-            <Button fx:id="btnAccedi" mnemonicParsing="false" onAction="#onAccedi" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="ACCEDI" />
-            <Button fx:id="btnConferma" defaultButton="true" mnemonicParsing="false" onAction="#onConferma" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="CONFERMA" />
+            <Button fx:id="btnTorna" mnemonicParsing="false" onAction="#onTorna" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #FF4D4D; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="HOME" />
+            <Button fx:id="btnAccedi" mnemonicParsing="false" onAction="#onAccedi" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #CBF5FF; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Accedi" />
+            <Button fx:id="btnConferma" defaultButton="true" mnemonicParsing="false" onAction="#onConferma" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 6; -fx-border-color: #1B5E20; -fx-border-radius: 6; -fx-border-width: 1;" text="Conferma" />
          </children>
       </HBox>
    </bottom>
