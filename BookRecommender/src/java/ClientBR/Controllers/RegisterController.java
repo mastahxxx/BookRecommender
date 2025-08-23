@@ -69,6 +69,18 @@ public class RegisterController {
             return;
         }
 
+//        if(Helpers.emailAlreadyUsed(email)){   TODO: implementare il metodo nella classe helpers con il DB
+//            Helpers.showError("email gia in uso",lblError);
+//            return;
+//        }
+
+
+//        if(Helpers.userIDAlreadyUsed(userID)){  TODO
+//        Helpers.showError("UserId già in uso",lblError);
+//        return;
+//        }         
+
+
         //inserire metodi controllo mail e userid già registrati
         //TODO invio parametri al DB
 

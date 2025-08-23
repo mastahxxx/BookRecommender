@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 
+import ClientBR.Controllers.Helpers;
+
 
 // classe adibita al cambio delle scene in un unico stage, gestisce le eccezioni così da non doverci pensare nei controller, mostra alert in caso di errore.
 
@@ -26,7 +28,7 @@ private static final String BASE_PATH = "/views/";
     // permette di rimpiazzare la scena corrente con una nuova stabilita dal parametro, eventuali errori vengono mostrati con un Alert
     public static void switchTo(String fxml) { 
         if (stage == null) {
-            showError("Stage non iniziallizzato.");
+            Helpers.showError("Stage non iniziallizzato.");
             System.exit(1);
           }
 
@@ -34,7 +36,7 @@ private static final String BASE_PATH = "/views/";
         try {
             URL url = SceneNavigator.class.getResource(BASE_PATH + fxml); 
             if (url == null) {
-                showError("View non trovata: \n" + BASE_PATH + fxml  );
+                Helpers.showError("View non trovata: \n" + BASE_PATH + fxml  );
                 System.exit(1);
                 }
 
@@ -46,7 +48,7 @@ private static final String BASE_PATH = "/views/";
         } catch (Exception e) { // Qualsiasi altro errore non gestito precedentemente (errori nel fxml, errori nel controller ecc..)
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw) );
-            showError("Impossibile aprire la schermata");
+            Helpers.showError("Impossibile aprire la schermata");
 
             //System.exit(1);
         }
@@ -60,8 +62,6 @@ private static final String BASE_PATH = "/views/";
     public static void switchToCercaLibri() {switchTo("cercaLibro.fxml");}
     public static void switchToUtenteRegistrato() {switchTo("utenteRegistrato.fxml");}
 
-
-
     //scorciatoria per chiudere il programma
     public static void Esci(){
         System.exit(0);
@@ -70,15 +70,8 @@ private static final String BASE_PATH = "/views/";
 
 
 
-    //mostra alert (pupop) d' errore all'utente
-    public static void showError(String messaggio){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("ERRORE");
-        alert.setHeaderText(null);
-        alert.setContentText(messaggio);
-        alert.showAndWait();
 
-    }
+    
     
 
 

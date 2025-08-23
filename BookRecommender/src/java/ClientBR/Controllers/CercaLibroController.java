@@ -4,137 +4,150 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+
 import ClientBR.SceneNavigator;
-import ClientBR.Controllers.Helpers;
-
-import java.util.List;
-
 import ClassiCondivise.Libro;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.List;
 
 public class CercaLibroController {
 
-@FXML private TextField fTitolo; 
-@FXML private TextField fAutore;
-@FXML private TextField fAnno;
-@FXML private Button btnCerca;
-@FXML private Button btnPulisci;
-@FXML private Button btnHome;
-@FXML private TableView tblView;
-@FXML private TableColumn tTitolo;
-@FXML private TableColumn tAutore;
-@FXML private TableColumn tAnno;
+    @FXML private TextField fTitolo;
+    @FXML private TextField fAutore;
+    @FXML private TextField fAnno;
+    @FXML private Button btnCerca;
+    @FXML private Button btnPulisci;
+    @FXML private Button btnHome;
 
+    @FXML private TableView<Libro> tblView;
+    @FXML private TableColumn<Libro, String> tTitolo;
+    @FXML private TableColumn<Libro, String> tAutore;
+    @FXML private TableColumn<Libro, String> tAnno;
 
-//lista che contiene i risultati della ricerca.
-private final ObservableList<Libro> risultati = FXCollections.observableArrayList(); 
-@FXML private void initialize(){
+    private final ObservableList<Libro> risultati = FXCollections.observableArrayList();
 
-    tblView.setOnMouseClicked(e -> {
-        if (e.getClickCount()==2) {
-            apriInfoLibro();
-         }
-    });
+    @FXML
+    private void initialize() {
 
-    //collegamento delle colonne ai getter della classe Libro, ogni volta che si aggiunge un oggetto di tipo Libro alla lista le colonne prenderanno in automatio il getter del libro
-    tTitolo.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("titolo"));
-    tAutore.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("autore"));
-    tAnno.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("annoPubblicazione"));
+        //le colonne si aggiornano in automatico attraverso i getter corrispondenti
+        tTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
+        tAutore.setCellValueFactory(new PropertyValueFactory<>("autore"));
+        tAnno.setCellValueFactory(new PropertyValueFactory<>("annoPubblicazione")); 
+        tblView.setItems(risultati);
+        tblView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); //fa in modo che si possa apire un solo libro alla volta
+        tblView.setPlaceholder(new Label("Nessun risultato"));
 
-    //collegamento lista alla tabella
-    tblView.setItems(risultati);
+        // doppio click per aprire il libro
+        tblView.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
+                apriInfoLibro();
+            }
+        });
 
-    //faccio in modo che si possa selezionare un solo libro per volta
-    tblView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        //TODO: LIBRI PER TEST, SCAMBIARE CON LIBRI PRESENTI NEL DB, UTILIZZARE LE STRINGHE CHE VENGONO DATE NEL METODO onCerca(); (riga100-102). assicurarsi di cancellare tutto il resto di questo metodo.
+        Libro demo = new Libro();
+        demo.setTitolo("Il nome della rosa");
+        demo.setAutore("Umberto Eco");
+        demo.setAnnoPubblicazione("1980");
+        demo.setStile(8);
+        demo.setContenuto(9);
+        demo.setGradevolezza(8);
+        demo.setOriginalita(9);
+        demo.setEdizione(7);
 
-    //placeholder per non lasciare la tabella vuota quando non ci sono dati
-    tblView.setPlaceholder(new Label("Nessun risultato"));
-
-    //apriamo informazioni Libro con doppio click del mouse
-    tblView.addEventFilter(MouseEvent.MOUSE_CLICKED, evt -> {
-        if (evt.getButton() == MouseButton.PRIMARY && evt.getClickCount() == 2) {
-            //TODO apriInfoLibro();
-          }
-    }  );
-}
-
-
-@FXML private void onCerca(){
-
-    String titolo = fTitolo.getText().trim();
-    String autore =fAutore.getText().trim();
-    String anno = fAnno.getText().trim();
-
-    //INSERIRE RICERCA SUL DB DEI LIBRI E INSERIMENTO LIBRI,  PER ORA C è UN PLACEHOLDER
-
-    btnCerca.setDisable(true);
-    tblView.setPlaceholder(new Label("Ricerca in corso..."));
-
-    try {
-        List<Libro> res;
-        //List<Libro> res = socketClient.searchLibri(titolo,autore,anno); QUI METTERE IL COLLEGAMENTO AL SOCKET
-
-        //risultati.setAll(res);  aggiungere i libri che arrivano tramite socket in res che poi verranno aggiunti alla lista risultati
         
-        //if(res.isEmpty()) {
-        //    tblView.setPlaceholder(new Label("Nessun risultato..."));
-        //}
 
-    } catch (Exception e) {
-        System.exit(1);
+        //SECONDO LIBRO DI TEST
+        Libro consigliato = new Libro();
+        consigliato.setTitolo("Il pendolo di Foucault");
+        consigliato.setAutore("Umberto Eco");
+        consigliato.setAnnoPubblicazione("1988");
+        consigliato.setStile(8);
+        consigliato.setContenuto(8);
+        consigliato.setGradevolezza(7);
+        consigliato.setOriginalita(9);
+        consigliato.setEdizione(7);
+//note per demo
+demo.setNoteContenuto("Trama avvincente e ben strutturata", "Admin");
+demo.setNoteStile("Prosa ricca ma scorrevole", "Admin");
+demo.setNoteOriginalita("Intreccio investigativo originale", "Admin");
+demo.setNoteGradevolezza("Ritmo costante, mai noioso", "Admin");
+demo.setNoteEdizione("Buona qualità di stampa", "Admin");
+
+// note per il consigliato
+consigliato.setNoteContenuto("Più criptico ma affascinante", "Admin");
+consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
+
+
+        demo.setLibriConsigliati(consigliato);
+
+        risultati.add(demo);
+    }
+    // cerca i libri utilizzando titolo, autore, anno e mostra nella tabella i libri trovati, quali libri vengono trovati con un determinato inpu va stabilito separatamente
+    @FXML private void onCerca() {
+        String titolo = fTitolo.getText().trim(); //da usare per cercare libri nel DB
+        String autore = fAutore.getText().trim();
+        String anno   = fAnno.getText().trim();
+
+        btnCerca.setDisable(true); //blocchiamo il pulsante finchè non finisce la ricerca
+        tblView.setPlaceholder(new Label("Ricerca in corso..."));
+
+        try {
+            // TODO: integra la ricerca reale DB
+            List<Libro> res = List.of(); 
+            risultati.setAll(res); //mettere al posto del res i libri trovati dal DB
+            if (res.isEmpty()) { //res può essere vuoto senza causare errori
+                tblView.setPlaceholder(new Label("Nessun risultato..."));
+            }
+        } catch (Exception e) {
+            tblView.setPlaceholder(new Label("Errore durante la ricerca"));
+            Helpers.showError("Errore durante la ricerca");
+            System.exit(1);
+        } finally {
+            btnCerca.setDisable(false); //riattiviamo pulsante
+        }
     }
 
-    finally {
-        btnCerca.setDisable(false); //riabilito il pulsante cerca
+    @FXML private void onPulisci() {
+        Helpers.clearFields(fTitolo,fAutore,fAnno);     
+        risultati.clear();
+        tblView.setPlaceholder(new Label(""));
     }
-}
 
+    @FXML private void onHome() {
+        SceneNavigator.switchToHome();
+    }
+    //quando l' utente fa doppio click sul libro dobbiamo passare a una nuova scena ma ricordandoci che libro aveva scelto l' utente
+    private void apriInfoLibro() {
+        Libro sel = tblView.getSelectionModel().getSelectedItem(); //salviamo il libro selezionato
+        if (sel == null) { return; }
+        try { //cambiamo scena, questa volta non usiamo SceneNavigator
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/visualizzaLibro.fxml"));
+            Parent root = loader.load();
 
-@FXML private void onPulisci(){
-    Helpers.clearFields(fTitolo,fAutore,fAnno);
-}
+            VisualizzaLibroController controller = loader.getController();
+            controller.setLibro(sel); //salviamo il libro selezionato in VisualizzaLibroController
 
-@FXML private void onHome(){
-    SceneNavigator.switchToHome();
-}
+            Stage stage = (Stage) tblView.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
 
-private void apriInfoLibro(){
-    Libro sel = (Libro) tblView.getSelectionModel().getSelectedItem();//verificare che non ci siano eventuali errori per colpa del cast
-    if (sel==null) { return;}
-    try { //non usiamo scenenavigator per questa volta
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/visualizzaLibro.fxml"));
-        Parent root = loader.load();
+        } catch (Exception e) {
+            Helpers.showError("Impossibile aprire il libro");
+            System.exit(1);
+        }
+    }
 
-        //passo il libro selezionato 
-        VisualizzaLibroController controller = loader.getController();
-        controller.setLibro(sel);
-
-        Stage stage = (Stage) tblView.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-
-
-
-    } catch (Exception e) {
-        System.exit(1);
-        SceneNavigator.showError("imp aprire libro");
-    }    
 
 }
-
-
-
-
-
-
-
-
-
-    
-}       

@@ -9,7 +9,7 @@ public static void clearError(Label lblError) { //serve per resettare in automat
         lblError.setText("");          
 }
 
-public static void showError(String err, Label lblError) {
+public static void showError(String err, Label lblError) { //mostra gli errori in un label
     lblError.setText(err);
     lblError.setStyle("-fx-text-fill: red;"); //gli errori verranno mostrati in rosso
 }
@@ -43,9 +43,22 @@ public static boolean validEmail(String mail) {
     return mail.matches(".+@.+\\..+" );  
 }
 
-//classi da fare col DB
-//TODO public static boolean emailAlreadyUsed
-//TODO public static boolean userIDAlreadyUsed
-//TODO public static boolean uSerIDIsCorrect
-//TODO public static boolean passwordISCorrect
+    //mostra alert (pupop) d' errore all'utente
+    public static void showError(String messaggio){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("ERRORE");
+        alert.setHeaderText(null);
+        alert.setContentText(messaggio);
+        alert.showAndWait();
+
+    }
+
+//metodi da fare col DB
+//TODO public static boolean emailAlreadyUsed(String email);
+//aggiungere controlloo email DB
+
+
+//TODO public static boolean userIDAlreadyUsed(String UserID);
+//aggiungere controllo USerId Dal DB
+
 }
