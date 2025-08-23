@@ -5,6 +5,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 
 
@@ -41,8 +44,11 @@ private static final String BASE_PATH = "/views/";
             stage.show();
 
         } catch (Exception e) { // Qualsiasi altro errore non gestito precedentemente (errori nel fxml, errori nel controller ecc..)
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw) );
             showError("Impossibile aprire la schermata");
-            System.exit(1);
+
+            //System.exit(1);
         }
         
     }
@@ -51,7 +57,7 @@ private static final String BASE_PATH = "/views/";
     public static void switchToHome() {switchTo("home.fxml");}
     public static void switchToLogin() {switchTo("login.fxml");}
     public static void switchToRegister() {switchTo("register.fxml");}
-    public static void switchToCercaLibri() {switchTo("cercaLibri.fxml");}
+    public static void switchToCercaLibri() {switchTo("cercaLibro.fxml");}
     public static void switchToUtenteRegistrato() {switchTo("utenteRegistrato.fxml");}
 
 

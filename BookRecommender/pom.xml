@@ -10,9 +10,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.release>22</maven.compiler.release>
     <exec.mainClass>ClientBR.Main</exec.mainClass>
-    <javafx.version>21.0.4</javafx.version>
+    <javafx.version>24.0.1</javafx.version>
     <postgres.version>42.7.4</postgres.version>
   </properties>
 
@@ -35,13 +35,12 @@
   </dependencies>
 
   <build>
-    <!-- !!! PERCORSI PERSONALIZZATI !!! -->
     <sourceDirectory>src/java</sourceDirectory>
     <resources>
       <resource>
         <directory>src/resources</directory>
         <includes>
-          <include>**/*</include>
+          <include>*/</include>
         </includes>
       </resource>
     </resources>
@@ -65,7 +64,9 @@
         </configuration>
         <executions>
           <execution>
-            <goals><goal>run</goal></goals>
+            <goals>
+              <goal>run</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
