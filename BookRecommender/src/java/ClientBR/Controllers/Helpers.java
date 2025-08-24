@@ -43,7 +43,7 @@ public static boolean validEmail(String mail) {
     return mail.matches(".+@.+\\..+" );  
 }
 
-    //mostra alert (pupop) d' errore all'utente
+    //OVERRIDE: mostra alert (pupop) d' errore all'utente 
     public static void showError(String messaggio){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("ERRORE");

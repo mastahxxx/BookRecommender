@@ -32,7 +32,7 @@ public class Libro {
         this.noteEdizione = new LinkedList<>();
     }
 
-    //getter
+    // getter
     public String getTitolo() {
         return this.titolo; 
     }
@@ -78,13 +78,11 @@ public class Libro {
     public boolean getControllo() {
         return this.controllo; 
     }
-
     public LinkedList<Libro> getLibriConsigliati() { 
         return this.libriConsigliati; 
     }
 
-
-    //setter
+    // setter
     public void setTitolo(String titolo) {
         this.titolo = titolo; 
     }
@@ -113,7 +111,7 @@ public class Libro {
         this.controllo = c; 
     }
 
-    //aggiungo note alla lista
+    // aggiungo note alla lista
     public void setNoteStile(String noteSt, String autore) {
         String str = "Note stile : " + autore + ": " + noteSt + ". ";
         noteStile.add(str);
@@ -135,10 +133,19 @@ public class Libro {
         noteEdizione.add(str);
     }
     
-    //serve per cabmiare Libro, es: classe VisualizzaLibroController
+    // serve per cambiare Libro, es: classe VisualizzaLibroController
     public void setLibriConsigliati(Libro libro) {
         if (libro != null) {
             this.libriConsigliati.add(libro);
         }
+    }
+
+    // toString per visualizzazione in ComboBox/ListView
+    @Override
+    public String toString() {
+        String t = (titolo != null) ? titolo : "(senza titolo)";
+        String a = (autore != null) ? autore : "sconosciuto";
+        String y = (annoPubblicazione != null) ? annoPubblicazione : "-";
+        return t + " — " + a + " (" + y + ")";
     }
 }
