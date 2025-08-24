@@ -37,6 +37,10 @@ public class VisualizzaLibroController {
     @FXML
     private void initialize() {
 
+
+        this.libro = SceneNavigator.getLibro();
+        refreshUI();
+
         note.setEditable(false); //l' utente non può scrivere nella textarea
         note.setWrapText(true); //per andare a capo automaticamente
 
@@ -52,7 +56,6 @@ public class VisualizzaLibroController {
                 apriLibro();
             }
         });
-        clearUI();
     }
 
     //bottoni
@@ -63,16 +66,11 @@ public class VisualizzaLibroController {
         SceneNavigator.switchToHome();
     }
 
-
-    public void setLibro(Libro libro) { //settiamo il libro da cui leggere voti, note e consigli
-        this.libro = libro;
-        refreshUI();
-    }
-
     public void apriLibro() { 
         Libro sel = tblViewConsigli.getSelectionModel().getSelectedItem(); //prendiamo il libro selezionato dal utente
         if (sel == null) return;
-        setLibro(sel);
+        this.libro = sel;
+        refreshUI();
     }
 
     private void refreshUI() {

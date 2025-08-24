@@ -132,21 +132,9 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
     private void apriInfoLibro() {
         Libro sel = tblView.getSelectionModel().getSelectedItem(); //salviamo il libro selezionato
         if (sel == null) { return; }
-        try { //cambiamo scena, questa volta non usiamo SceneNavigator
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/visualizzaLibro.fxml"));
-            Parent root = loader.load();
 
-            VisualizzaLibroController controller = loader.getController();
-            controller.setLibro(sel); //salviamo il libro selezionato in VisualizzaLibroController
-
-            Stage stage = (Stage) tblView.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (Exception e) {
-            Helpers.showError("Impossibile aprire il libro");
-            System.exit(1);
-        }
+        SceneNavigator.setLibro(sel); //salviamo il libro selezionato in VisualizzaLibroController
+        SceneNavigator.switchToVisualizzaLibro();      
     }
 
 

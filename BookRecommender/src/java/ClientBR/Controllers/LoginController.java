@@ -42,8 +42,9 @@ public class LoginController {
         //TODO: metodi per controllare password e userID
 
         //STUB
-        boolean ok = true;
+        boolean ok = true; //se password e userId sono giusti
         if (ok) {
+            SceneNavigator.setUserID(userId);
             SceneNavigator.switchToUtenteRegistrato();
         }
 
