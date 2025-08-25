@@ -8,10 +8,20 @@ public class Libreria {
     private boolean controllo;
 
     public Libreria() {
-        this.contenuto = new LinkedList();
+        this.contenuto = new LinkedList<>();
     }
+
+    public Libreria(String nome) {
+        this.nome = nome;
+        this.contenuto = new LinkedList<>();
+    }
+
     public String getNome() {
         return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public LinkedList<Libro> getContenuto() {
@@ -25,6 +35,5 @@ public class Libreria {
     public void setControllo(boolean c) {
         this.controllo = c;
     }
-
 
 }

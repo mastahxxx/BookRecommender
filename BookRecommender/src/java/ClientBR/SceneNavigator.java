@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import ClassiCondivise.Libreria;
 import ClassiCondivise.Libro;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -17,6 +18,7 @@ import ClientBR.Controllers.Helpers;
 public class SceneNavigator { 
 
 public static Libro libro; //da usare per passare un libro da un controller al altro
+public static Libreria libreria; //da usare per passare una libreria da un controller al altro
 public static String userID; //da usare per impostare lo userID della sessione nel caso un utente dovesse accedere, null se l' utente non è loggato
 private static Stage stage;
 private static final String BASE_PATH = "/views/";
@@ -68,6 +70,7 @@ private static final String BASE_PATH = "/views/";
     public static void switchToSuggerimenti() {switchTo("suggerimenti.fxml");}
     public static void switchToCercaLibroRegistrato() {switchTo("cercaLibroRegistrato.fxml");}
     public static void switchToVisualizzaLibroRegistrato() {switchTo("visualizzaLibroUtenteRegistrato.fxml");}
+    public static void switchToVisualizzaLibreria() {switchTo("visualizzaLibreria.fxml");}
 
     public static void logout(){ //setta userID null e ritorna alla home
         setUserIDNull();
@@ -100,10 +103,14 @@ private static final String BASE_PATH = "/views/";
     public static void setUserIDNull(){
         userID = null;
     }
-
-
     
+    public static void setLibreria(Libreria l){
+        libreria = l; 
+    }
+    public static Libreria getLibreria(){
+        return libreria;
+    }
     
 
 
-}
+    }
