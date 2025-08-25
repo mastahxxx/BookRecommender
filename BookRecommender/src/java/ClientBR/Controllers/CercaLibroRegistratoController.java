@@ -22,15 +22,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
-public class CercaLibroController {
+public class CercaLibroRegistratoController { //classe quasi indentica della cercaLibro, ma con bottoni di logOut e indietro 
 
     @FXML private TextField fTitolo;
     @FXML private TextField fAutore;
     @FXML private TextField fAnno;
     @FXML private Button btnCerca;
     @FXML private Button btnPulisci;
-    @FXML private Button btnHome;
-
     @FXML private TableView<Libro> tblView;
     @FXML private TableColumn<Libro, String> tTitolo;
     @FXML private TableColumn<Libro, String> tAutore;
@@ -51,6 +49,7 @@ public class CercaLibroController {
 
         // doppio click per aprire il libro
         tblView.setOnMouseClicked(this::clickTabella);
+        
 
         //TODO: LIBRI PER TEST, SCAMBIARE CON LIBRI PRESENTI NEL DB, UTILIZZARE LE STRINGHE CHE VENGONO DATE NEL METODO onCerca(); (riga100-102). assicurarsi di cancellare tutto il resto di questo metodo.
         Libro demo = new Libro();
@@ -91,8 +90,7 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
 
         risultati.add(demo);
     }
-
-    private void clickTabella(MouseEvent e) {
+        private void clickTabella(MouseEvent e) {
     if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
         apriInfoLibro();
     }
@@ -128,16 +126,20 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
         tblView.setPlaceholder(new Label(""));
     }
 
-    @FXML private void onHome() {
-        SceneNavigator.switchToHome();
+    @FXML private void onLogout() {
+        SceneNavigator.logout();
+    }
+    @FXML private void onIndietro(){
+        SceneNavigator.switchToUtenteRegistrato();
     }
     //quando l' utente fa doppio click sul libro dobbiamo passare a una nuova scena ma ricordandoci che libro aveva scelto l' utente
     private void apriInfoLibro() {
         Libro sel = tblView.getSelectionModel().getSelectedItem(); //salviamo il libro selezionato
+        SceneNavigator.setLibro(sel);
         if (sel == null) { return; }
 
         SceneNavigator.setLibro(sel); //salviamo il libro selezionato in VisualizzaLibroController
-        SceneNavigator.switchToVisualizzaLibro();      
+        SceneNavigator.switchToVisualizzaLibroRegistrato();      
     }
 
 

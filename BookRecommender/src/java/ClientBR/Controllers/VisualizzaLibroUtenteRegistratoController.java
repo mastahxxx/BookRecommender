@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class VisualizzaLibroController {
+public class VisualizzaLibroUtenteRegistratoController {
 
     @FXML private Label libroVisionato;
     @FXML private Label stile;
@@ -26,7 +26,6 @@ public class VisualizzaLibroController {
     @FXML private TextArea note;
     @FXML private Button home;
     @FXML private Button cercaLibri;
-
     @FXML private TableView<Libro> tblViewConsigli;
     @FXML private TableColumn<Libro, String> tTitolo;
     @FXML private TableColumn<Libro, String> tAutore;
@@ -35,8 +34,7 @@ public class VisualizzaLibroController {
     private Libro libro;
     private final ObservableList<Libro> consigliatiData = FXCollections.observableArrayList();
 
-    @FXML
-    private void initialize() {
+    @FXML private void initialize() {
 
 
         this.libro = SceneNavigator.getLibro();
@@ -50,21 +48,24 @@ public class VisualizzaLibroController {
         tAutore.setCellValueFactory(new PropertyValueFactory<>("autore"));
         tAnno.setCellValueFactory(new PropertyValueFactory<>("annoPubblicazione")); // 2 b
         tblViewConsigli.setItems(consigliatiData);
-
         //doppio click per aprire il libro selezionato
         tblViewConsigli.setOnMouseClicked(this::clickTabella);
     }
+    
     private void clickTabella(MouseEvent e) {
     if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
         apriLibro();
     }
-}
+    }
     //bottoni
     @FXML private void onCercaLibri(){
         SceneNavigator.switchToCercaLibri();
     }
-    @FXML private void onHome(){
-        SceneNavigator.switchToHome();
+    @FXML private void onLogout(){
+        SceneNavigator.logout();
+    }
+    @FXML private void onIndietro(){
+        SceneNavigator.switchToUtenteRegistrato();
     }
 
     public void apriLibro() { 

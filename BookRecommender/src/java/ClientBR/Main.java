@@ -3,6 +3,8 @@ package ClientBR;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.event.EventHandler;
 
 public class Main extends Application {
 
@@ -19,7 +21,12 @@ public class Main extends Application {
             SceneNavigator.switchToHome();
 
             //chiusura
-            primaryStage.setOnCloseRequest(e -> Platform.exit());
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    Platform.exit();
+                }
+            });
 
         } catch (Exception ex) {
             ex.printStackTrace();

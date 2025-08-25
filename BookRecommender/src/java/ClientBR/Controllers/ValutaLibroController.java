@@ -8,8 +8,6 @@ import javafx.scene.control.*;
 
 
 
-
-
 public class ValutaLibroController {
     
     @FXML private ComboBox<Libro> cbLibro;          
@@ -35,7 +33,7 @@ public class ValutaLibroController {
         caricaMieiLibri(SceneNavigator.getUserID()); // TODO: riempi mieiLibri dal DB
 
         cbLibro.setItems(mieiLibri); // collega i libri 
-        cbLibro.valueProperty().addListener((obs, ov, nv) -> onLibroChanged()); // quando cambia libro, reset campi
+        cbLibro.valueProperty().addListener(this::onLibroChanged); // quando cambia libro, reset campi
 
         var voti = FXCollections.observableArrayList(1,2,3,4,5); // lista 1..5 per tutte le combobox voto
         cbContenuto.setItems(voti); cbContenuto.getSelectionModel().clearSelection(); 
@@ -45,11 +43,11 @@ public class ValutaLibroController {
         cbEdizione.setItems(voti); cbEdizione.getSelectionModel().clearSelection();     
 
         // ogni volta che cambia un voto, aggiorniamo la media e il plusante salva
-        cbContenuto.valueProperty().addListener((o,ov,nv)->{ aggiornaVotoFinale(); aggiornaBtnSalva(); });
-        cbStile.valueProperty().addListener((o,ov,nv)->{ aggiornaVotoFinale(); aggiornaBtnSalva(); });
-        cbGradevolezza.valueProperty().addListener((o,ov,nv)->{ aggiornaVotoFinale(); aggiornaBtnSalva(); });
-        cbOriginalita.valueProperty().addListener((o,ov,nv)->{ aggiornaVotoFinale(); aggiornaBtnSalva(); });
-        cbEdizione.valueProperty().addListener((o,ov,nv)->{ aggiornaVotoFinale(); aggiornaBtnSalva(); });
+        cbContenuto.valueProperty().addListener(this::onVotoChanged);
+        cbStile.valueProperty().addListener(this::onVotoChanged);
+        cbGradevolezza.valueProperty().addListener(this::onVotoChanged);
+        cbOriginalita.valueProperty().addListener(this::onVotoChanged);
+        cbEdizione.valueProperty().addListener(this::onVotoChanged);
 
         // ogni nota ha un limite di 256 caratteri
         maxLen(taContenuto);
@@ -70,6 +68,12 @@ public class ValutaLibroController {
     }
     @FXML private void onAggiungiSuggerimenti(){
         SceneNavigator.switchToSuggerimenti();
+    }
+
+    private void onLibroChanged(javafx.beans.value.ObservableValue<? extends Libro> obs,
+                                Libro oldV,
+                                Libro newV) {
+        onLibroChanged();
     }
 
     private void onLibroChanged() {
@@ -114,6 +118,13 @@ public class ValutaLibroController {
         Helpers.showInfo("Valutazione salvata!", lblErr);              
     }
 
+    private void onVotoChanged(javafx.beans.value.ObservableValue<? extends Integer> obs,
+                               Integer oldV,
+                               Integer newV) {
+        aggiornaVotoFinale();
+        aggiornaBtnSalva();
+    }
+
     private void aggiornaVotoFinale() {
         if (!tuttiVotiPresenti()) {               
             tfVotoFinale.clear();                
@@ -150,12 +161,17 @@ public class ValutaLibroController {
         cbEdizione.getSelectionModel().clearSelection();
     }
 
-    private void maxLen(TextArea ta) {
-        ta.textProperty().addListener((obs, oldV, newV) -> {
+    private void onTextChanged(javafx.beans.value.ObservableValue<? extends String> obs,
+                               String oldV,
+                               String newV) {
         if (newV != null && newV.length() > 256) {
-            ta.setText(newV.substring(0, 256));
+            ((javafx.scene.control.TextArea)((javafx.beans.property.StringProperty)obs).getBean())
+                .setText(newV.substring(0, 256));
         }
-    });
+    }
+
+    private void maxLen(TextArea ta) {
+        ta.textProperty().addListener(this::onTextChanged);
 }
 
     private boolean isBlank(String s) { return s == null || s.trim().isEmpty(); } // util
@@ -201,37 +217,3 @@ public class ValutaLibroController {
 }
 
 }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-

@@ -66,6 +66,8 @@ private static final String BASE_PATH = "/views/";
     public static void switchToLibrerie() {switchTo("librerie.fxml");}
     public static void switchToValutaLibro() {switchTo("valutaLibro.fxml");}
     public static void switchToSuggerimenti() {switchTo("suggerimenti.fxml");}
+    public static void switchToCercaLibroRegistrato() {switchTo("cercaLibroRegistrato.fxml");}
+    public static void switchToVisualizzaLibroRegistrato() {switchTo("visualizzaLibroUtenteRegistrato.fxml");}
 
     public static void logout(){ //setta userID null e ritorna alla home
         setUserIDNull();

@@ -10,6 +10,7 @@ public class UtenteRegistratoController {
 @FXML private Button btnSuggerimenti;
 @FXML private Button btnLogout;
 @FXML private Label lblBenvenuto;
+@FXML private Button btnCercaLibriUtenteRegistrato;
 
 
 
@@ -31,5 +32,9 @@ public class UtenteRegistratoController {
 @FXML private void onLogout(){
     SceneNavigator.logout();
 }
+@FXML private void onCercaLibriRegistrato(){
+    SceneNavigator.switchToCercaLibroRegistrato();
+}
+
 
 }

@@ -46,13 +46,20 @@ public class SuggerimentiController {
         //mettiamo i libri nella combobox
         cbLibro.setItems(mieiLibri);
         //cambia in automatico la lista dei libri nella combo
-        cbLibro.valueProperty().addListener((obs, oldV, newV) -> ricalcolaDisponibli()); 
+        cbLibro.valueProperty().addListener(this::onLibroChanged);
 
         lvDisponibili.setItems(disponibili);
         lvSelezionati.setItems(selezionati);
         ricalcolaDisponibli();
         refreshUI();
     }
+
+    private void onLibroChanged(javafx.beans.value.ObservableValue<? extends Libro> obs,
+        Libro oldV,
+        Libro newV) {
+    ricalcolaDisponibli();
+}
+
 
     @FXML private void onLogout(){
         SceneNavigator.logout();
