@@ -41,7 +41,7 @@ public class SuggerimentiController {
         lvSelezionati.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //TODO: metodo che carica tutti i libri disponibli da tutte le librerie del utente in
-        caricaMieiLibri(SceneNavigator.getUserID());
+        caricaLibri(SceneNavigator.getUserID());
 
         //mettiamo i libri nella combobox
         cbLibro.setItems(mieiLibri);
@@ -159,7 +159,7 @@ public class SuggerimentiController {
     }
 
 
-             private void caricaMieiLibri(String userId) { //METODO PER TEST; CANCELLARE E IMPLEMENTARE IL METODO A RIGA 114
+             private void caricaLibri(String userId) { //METODO PER TEST; CANCELLARE E IMPLEMENTARE IL METODO A RIGA 114
     // Reset liste
     mieiLibri.clear();
     disponibili.clear();
