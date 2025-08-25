@@ -52,11 +52,11 @@ public class ValutaLibroController {
         cbEdizione.valueProperty().addListener((o,ov,nv)->{ aggiornaVotoFinale(); aggiornaBtnSalva(); });
 
         // ogni nota ha un limite di 256 caratteri
-        maxLen(taContenuto, "Nota contenuto");
-        maxLen(taStile, "Nota stile");
-        maxLen(taGradevolezza, "Nota gradevolezza");
-        maxLen(taOriginalita, "Nota originalità");
-        maxLen(taEdizione, "Nota edizione");
+        maxLen(taContenuto);
+        maxLen(taStile);
+        maxLen(taGradevolezza);
+        maxLen(taOriginalita);
+        maxLen(taEdizione);
         tfVotoFinale.setText("");                     
         btnSalva.setDisable(true);                    // disabilitato finche non si votano tutti e 5 i criteri
     }
@@ -91,13 +91,6 @@ public class ValutaLibroController {
 
         if (!tuttiVotiPresenti()) {                  // controlla che tutti i criteri abbiano i voti
             Helpers.showError("Completa tutti i voti (1–5) prima di salvare.", lblErr);
-            return;
-        }
-
-        //controlliam che le note non abbiano più di 256 caratteri
-        if (exceeds256(taContenuto) || exceeds256(taStile) || exceeds256(taGradevolezza)
-                || exceeds256(taOriginalita) || exceeds256(taEdizione)) {
-            Helpers.showError("Le note non possono superare 256 caratteri.", lblErr);
             return;
         }
 
@@ -157,18 +150,13 @@ public class ValutaLibroController {
         cbEdizione.getSelectionModel().clearSelection();
     }
 
-    private void maxLen(TextArea ta, String campo) {
+    private void maxLen(TextArea ta) {
         ta.textProperty().addListener((obs, oldV, newV) -> {
-            if (newV != null && newV.length() > 256) {               // se supera 256
-                ta.setText(newV.substring(0, 256));                  // tronca a 256
-                Helpers.showError(campo + ": massimo 256 caratteri.", lblErr); // avvisa
-            }
-        });
-    }
-
-    private boolean exceeds256(TextArea ta) {                         
-        return ta.getText() != null && ta.getText().length() > 256;
-    }
+        if (newV != null && newV.length() > 256) {
+            ta.setText(newV.substring(0, 256));
+        }
+    });
+}
 
     private boolean isBlank(String s) { return s == null || s.trim().isEmpty(); } // util
 
