@@ -1,4 +1,4 @@
-package ServerBR;
+	package ServerBR;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -74,8 +74,9 @@ public class ServerThread extends Thread {
                     case "CONSIGLIA LIBRI":
                         String libriConsigliati = (String) in.readObject();
                         u = (UtenteRegistrato) in.readObject();
-                        db.InserisciConsigli(u, libriConsigliati);
-
+                        esito = db.InserisciConsigli(u, libriConsigliati);
+                        out.writeObject(esito);
+                        break;
                     default:
                         break;
                 }
