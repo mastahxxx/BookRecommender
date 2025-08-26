@@ -2,7 +2,8 @@ package ClassiCondivise;
 
 import java.util.LinkedList;
 
-public class Libro {
+public class Libro implements Serializable{
+	public static final long SerialVersionUID = 1L;
     private String titolo;
     private String autore;
     private String annoPubblicazione; 

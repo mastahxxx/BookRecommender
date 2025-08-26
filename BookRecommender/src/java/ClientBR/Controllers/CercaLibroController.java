@@ -102,13 +102,20 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
         String titolo = fTitolo.getText().trim(); //da usare per cercare libri nel DB
         String autore = fAutore.getText().trim();
         String anno   = fAnno.getText().trim();
-
+        
         btnCerca.setDisable(true); //blocchiamo il pulsante finchè non finisce la ricerca
         tblView.setPlaceholder(new Label("Ricerca in corso..."));
-
+        
         try {
             // TODO: integra la ricerca reale DB
-            List<Libro> res = List.of(); 
+        	Libro l;
+            l.setTitolo(titolo);
+            l.setAutore(autore);
+            l.setAnnoPubblicazione(anno);
+            out.writeObject("CERCA LIBRO"); //invio libro da cercare al db
+            out.writeObject(l);
+            List<Libro> res = (List <Libro>) in.readObject(); //ricevo un libro 
+            //List<Libro> res = List.of(); 
             risultati.setAll(res); //mettere al posto del res i libri trovati dal DB
             if (res.isEmpty()) { //res può essere vuoto senza causare errori
                 tblView.setPlaceholder(new Label("Nessun risultato..."));
