@@ -112,6 +112,30 @@ public class DbQuery extends DataBase {
         return metreturn;  
     }
     
+    public String MediaValutazioni(String idLibro)
+    {
+        ResultSet result;
+        result = null;
+        String query;
+        String metreturn = null;
+        query = "select avg(stile), avg(contenuto), avg(gradevolezza), avg(originalità), avg(edizione), avg(voto_finale) from public.\"Valutazioni\" where id_libro = ?";
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(query);
+            pstm.setString(1, idLibro);
+            result = statement.executeQuery(query);
+            result.next();
+            System.out.println(result.getString(1));
+            DbQuery classe = new DbQuery();
+            metreturn = classe.resultSetToString(result);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return metreturn;  
+    }
+    
     
     public static String resultSetToString(ResultSet result) throws SQLException {
         if (result == null) {
