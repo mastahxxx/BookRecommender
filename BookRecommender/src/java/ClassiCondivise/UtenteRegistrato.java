@@ -1,7 +1,8 @@
 package ClassiCondivise;
 
-public class UtenteRegistrato extends Utente{
+public class UtenteRegistrato implements Serializable{
 
+	private static final long serialVersionUID = 1L;
     private String nomeCognome;
     private String codiceFiscale;
     private String mail;
@@ -16,7 +17,7 @@ public class UtenteRegistrato extends Utente{
     public String getCodiceFiscale() {
     	return this.codiceFiscale;
     }
-    public String getmail() {
+    public String getMail() {
         return this.mail;
     }
 
@@ -28,7 +29,7 @@ public class UtenteRegistrato extends Utente{
         return this.password;
     }
 
-    public void setnomeCognome(String nomeCognome) {
+    public void setNomeCognome(String nomeCognome) {
         this.nomeCognome = nomeCognome;
     }
     
@@ -36,11 +37,11 @@ public class UtenteRegistrato extends Utente{
         this.codiceFiscale = codiceFiscale;
     }
 
-    public void setmail(String mail) {
+    public void setMail(String mail) {
         this.mail = mail;
     }
 
-    public void setuserId(String userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

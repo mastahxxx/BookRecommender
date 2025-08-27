@@ -21,6 +21,11 @@ import ClassiCondivise.Libro;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class CercaLibroController {
 
@@ -108,6 +113,10 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
         
         try {
             // TODO: integra la ricerca reale DB
+        	InetAddress addr = InetAddress.getByName(null);
+    		Socket socket=new Socket(addr, 8999);
+    		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+    		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         	Libro l;
             l.setTitolo(titolo);
             l.setAutore(autore);
@@ -120,11 +129,15 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
             if (res.isEmpty()) { //res può essere vuoto senza causare errori
                 tblView.setPlaceholder(new Label("Nessun risultato..."));
             }
-        } catch (Exception e) {
+            
+        } catch (Exception | IOException |ClassNotFoundException e) {
             tblView.setPlaceholder(new Label("Errore durante la ricerca"));
             Helpers.showError("Errore durante la ricerca");
             System.exit(1);
         } finally {
+        	out.close();
+			in.close();
+			socket.close();
             btnCerca.setDisable(false); //riattiviamo pulsante
         }
     }

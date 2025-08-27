@@ -59,6 +59,7 @@ public class DbQuery extends DataBase {
         //fammi ritornare una stringa al posto di un oggetto di tipo ResultSet se possibile inoltre ogni attributo è separato da punto e virgola
         //Se il libro eventualmente non essitesse fammi tornare una stringa vuota..
         // matte questa è praticamente una lista, preferisci una stringa con il ; ????
+        //lista di tipo List così evitiamo di toccare il codice della gui
         return metreturn;
     }
     

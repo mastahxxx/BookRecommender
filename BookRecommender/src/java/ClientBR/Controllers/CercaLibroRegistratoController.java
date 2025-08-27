@@ -21,6 +21,11 @@ import ClassiCondivise.Libro;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class CercaLibroRegistratoController { //classe quasi indentica della cercaLibro, ma con bottoni di logOut e indietro 
 
@@ -106,17 +111,33 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
 
         try {
             // TODO: integra la ricerca reale DB
-            List<Libro> res = List.of(); 
+        	InetAddress addr = InetAddress.getByName(null);
+    		Socket socket=new Socket(addr, 8999);
+    		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+    		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	Libro l;
+            l.setTitolo(titolo);
+            l.setAutore(autore);
+            l.setAnnoPubblicazione(anno);
+            out.writeObject("CERCA LIBRO"); //invio libro da cercare al db
+            out.writeObject(l);
+            List<Libro> res = (List <Libro>) in.readObject(); //ricevo un libro
+            //List<Libro> res = List.of(); 
             risultati.setAll(res); //mettere al posto del res i libri trovati dal DB
             if (res.isEmpty()) { //res può essere vuoto senza causare errori
                 tblView.setPlaceholder(new Label("Nessun risultato..."));
             }
-        } catch (Exception e) {
+            
+        } catch (Exception | IOException |ClassNotFoundException e) {
             tblView.setPlaceholder(new Label("Errore durante la ricerca"));
             Helpers.showError("Errore durante la ricerca");
             System.exit(1);
         } finally {
+        	out.close();
+			in.close();
+			socket.close();
             btnCerca.setDisable(false); //riattiviamo pulsante
+            
         }
     }
 

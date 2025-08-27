@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    final static int NUM_PORT = 8080;
+    final static int NUM_PORT = 8999;
 
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
