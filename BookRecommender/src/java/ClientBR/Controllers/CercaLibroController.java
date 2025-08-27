@@ -35,7 +35,7 @@ public class CercaLibroController {
     @FXML private Button btnCerca;
     @FXML private Button btnPulisci;
     @FXML private Button btnHome;
-
+    @FXML private Label lblErr;
     @FXML private TableView<Libro> tblView;
     @FXML private TableColumn<Libro, String> tTitolo;
     @FXML private TableColumn<Libro, String> tAutore;
@@ -107,12 +107,19 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
         String titolo = fTitolo.getText().trim(); //da usare per cercare libri nel DB
         String autore = fAutore.getText().trim();
         String anno   = fAnno.getText().trim();
-        
+
+        //si può cercare per autore, titolo oppure autore ed anno
+        Helpers.showInfo("inserisci titolo, autore oppure autore e anno", lblErr);
+        if(titolo.equals(null) || autore.equals(null)) {
+            Helpers.showError("Inserisci titolo o autore", lblErr);
+        }
+                
         btnCerca.setDisable(true); //blocchiamo il pulsante finchè non finisce la ricerca
         tblView.setPlaceholder(new Label("Ricerca in corso..."));
         
         try {
             // TODO: integra la ricerca reale DB
+            //se il db da errore mostra il messaggio con Helpers.showErr(stirnga, lblErr);
         	InetAddress addr = InetAddress.getByName(null);
     		Socket socket=new Socket(addr, 8999);
     		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
