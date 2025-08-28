@@ -111,7 +111,7 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
 
         //si può cercare per autore, titolo oppure autore ed anno
         Helpers.showInfo("inserisci titolo, autore oppure autore e anno", lblErr);
-        if(titolo.equals(null) || autore.equals(null)) {
+        if(titolo.equals("") || autore.equals("")) {
             Helpers.showError("Inserisci titolo o autore", lblErr);
         }
                 
@@ -143,7 +143,7 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
         } catch (Exception e) {
             tblView.setPlaceholder(new Label("Errore durante la ricerca"));
             Helpers.showError("Errore durante la ricerca");
-            System.exit(1);
+            //System.exit(1); debug
         } finally {
         	
             btnCerca.setDisable(false); //riattiviamo pulsante
