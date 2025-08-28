@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import ClassiCondivise.UtenteRegistrato;
 import java.io.IOException;
+import java.io.ClassNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -44,8 +45,7 @@ public class LoginController {
             Helpers.showError("La password devere essere di almeno 8 caratteri", lblError);
             return;
         }
-
-        //TODO: metodi per controllare password e userID
+        boolean ok = false;
         try {
             // TODO: integra la ricerca reale DB
         	InetAddress addr = InetAddress.getByName(null);
@@ -58,7 +58,7 @@ public class LoginController {
     		ur.setPassoword(pswd);
     		out.writeObject("LOGIN");
     		out.writeObject(ur);
-    		boolean ok = (boolean) in.readObject(); 
+    		ok = (boolean) in.readObject(); 
         } catch (Exception | IOException |ClassNotFoundException e) {
          
         } finally {
@@ -67,17 +67,15 @@ public class LoginController {
 			socket.close();
             btnCerca.setDisable(false); //riattiviamo pulsante
         }
-        //STUB
+        
         //se password e userId sono giusti
         if (ok) {
             SceneNavigator.setUserID(userId);
             SceneNavigator.switchToUtenteRegistrato();
+        }else {
+        	Helpers.showError("credenziali sbagliate");
         }
-
-
-
-
-       
+      
     }
 
 
