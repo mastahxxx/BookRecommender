@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import ClassiCondivise.UtenteRegistrato;
 import java.io.IOException;
-import java.io.ClassNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -21,6 +20,7 @@ public class LoginController {
     @FXML private Button btnRegistrati;
     @FXML private Button btnHome;
     @FXML private Label lblError;
+    @FXML private Button btnCerca;
     
     @FXML private void initialize(){
         Helpers.clearError(lblError);
@@ -52,19 +52,20 @@ public class LoginController {
     		Socket socket=new Socket(addr, 8999);
     		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
     		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-    		UtenteRegistrato ur;
+    		UtenteRegistrato ur = new UtenteRegistrato();
     		ur.setMail(userId);
     		ur.setUserId(userId);
     		ur.setPassoword(pswd);
     		out.writeObject("LOGIN");
     		out.writeObject(ur);
     		ok = (boolean) in.readObject(); 
-        } catch (Exception | IOException |ClassNotFoundException e) {
-         
-        } finally {
-        	out.close();
+            out.close();
 			in.close();
 			socket.close();
+        } catch (Exception e) {
+         
+        } finally {
+        	
             btnCerca.setDisable(false); //riattiviamo pulsante
         }
         

@@ -1,5 +1,7 @@
 package ClassiCondivise;
 
+import java.io.Serializable;
+
 public class UtenteRegistrato implements Serializable{
 
 	private static final long serialVersionUID = 1L;

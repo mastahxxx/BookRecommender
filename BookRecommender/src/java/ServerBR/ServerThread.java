@@ -1,9 +1,9 @@
-<<<<<<< HEAD:BookRecommender/src/main/java/ServerBR/ServerThread.java
-	package ServerBR;
-=======
+//<<<<<<< HEAD:BookRecommender/src/main/java/ServerBR/ServerThread.java
+//	package ServerBR;
+//=======
 
 package ServerBR;
->>>>>>> 17c85385528a759bc8ef0ed772bb2b9da97f2a28:BookRecommender/src/java/ServerBR/ServerThread.java
+//>>>>>>> 17c85385528a759bc8ef0ed772bb2b9da97f2a28:BookRecommender/src/java/ServerBR/ServerThread.java
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,6 +13,7 @@ import java.net.Socket;
 import ClassiCondivise.Libreria;
 import ClassiCondivise.Libro;
 import ClassiCondivise.UtenteRegistrato;
+import ClientBR.Controllers.Helpers;
 
 public class ServerThread extends Thread {
     private DataBase db;
@@ -30,13 +31,22 @@ public class ServerThread extends Thread {
 
         }
     }
-/* 
+     public ServerThread(Socket s) {
+        this.socket = s;
+        try {
+            this.in = new ObjectInputStream(socket.getInputStream());
+            this.out = new ObjectOutputStream(socket.getOutputStream());
+        }catch(IOException e) {
+
+        }
+    }
     public void run() {
         try {
             while(true) {
                 String request = "";
                 request = (String) in.readObject();
-                Libro l;
+                Libro l = new Libro();
+                Libro l2 = new Libro();
                 Libreria libreria = new Libreria();
                 UtenteRegistrato u;
                 boolean esito;
@@ -45,42 +55,45 @@ public class ServerThread extends Thread {
                         break;
                     case "CONSULTA REPOSITORY TITOLO":
                         l = (Libro) in.readObject();
-                        Libro l2 = db.cercaLibroPerTitolo(l);
+                       // Libro l2 = db.cercaLibroPerTitolo(l);
                         out.writeObject(l2);
                     case "CONSULTA REPOSITORY AUTORE":
-                        Libro l = (Libro) in.readObject();
-                        Libro l2 = db.cercaLibroPerAutore(l);
-                        out.writeObject(l2);
+                         l = (Libro) in.readObject();
+                      //  Libro l2 = db.cercaLibroPerAutore(l);
+                       // out.writeObject(l2);
                     case "CONSULTA REPOSITORY ANNO E AUTORE":
-                        Libro l = (Libro) in.readObject();
-                        Libro l2 = db.cercaLibroPerAutoreAnno(l);
+                         l = (Libro) in.readObject();
+                       // Libro l2 = db.cercaLibroPerAutoreAnno(l);
                         out.writeObject(l2);
 
                     case "Registrazine":
                         u = (UtenteRegistrato) in.readObject();
-                        esito = db.insertUtente(u);
-                        out.writeObject(esito);
+                        
+                        System.exit(1);
+                       // esito = db.insertUtente(u);
+                       // out.writeObject(esito);
                         break;
                     case "LOGIN":
                     	u = (UtenteRegistrato) in.readObject();
-                    	esito = db.login(u);
-                        out.writeObject(esito);
+                    	////esito = db.login(u);
+                       // out.writeObject(esito);
+                       System.out.println("FERNANDO MENDOSA");
                         break;
                
                     case "INSETISCI VALUTAZIONE":
                         l = (Libro) in.readObject();
-                        esito = db.iserisciValutazioni(l);
-                        out.writeObject(esito);
+                      //  esito = db.iserisciValutazioni(l);
+                       // out.writeObject(esito);
                         break;
 
                     case "REGISTRA LIBRERIA":
                         libreria = (Libreria) in.readObject();
-                        db.InserisciLibreria(libreria);
+                       // db.InserisciLibreria(libreria);
                     case "CONSIGLIA LIBRI":
                         String libriConsigliati = (String) in.readObject();
                         u = (UtenteRegistrato) in.readObject();
-                        esito = db.InserisciConsigli(u, libriConsigliati);
-                        out.writeObject(esito);
+                      //  esito = db.InserisciConsigli(u, libriConsigliati);
+                       // out.writeObject(esito);
                         break;
                     default:
                         break;
@@ -98,7 +111,7 @@ public class ServerThread extends Thread {
 
     }
 
-*/
+
 
 }
 

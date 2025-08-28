@@ -1,5 +1,6 @@
 package ClassiCondivise;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 public class Libro implements Serializable{

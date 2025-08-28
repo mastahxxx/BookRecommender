@@ -22,7 +22,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 import java.io.IOException;
-import java.io.ClassNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -123,7 +122,7 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
     		Socket socket=new Socket(addr, 8999);
     		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
     		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        	Libro l;
+        	Libro l = new Libro();
             l.setTitolo(titolo);
             l.setAutore(autore);
             l.setAnnoPubblicazione(anno);
@@ -135,15 +134,15 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
             if (res.isEmpty()) { //res può essere vuoto senza causare errori
                 tblView.setPlaceholder(new Label("Nessun risultato..."));
             }
-            
-        } catch (Exception | IOException |ClassNotFoundException e) {
+            out.close();
+			in.close();
+			socket.close();
+        } catch (Exception e) {
             tblView.setPlaceholder(new Label("Errore durante la ricerca"));
             Helpers.showError("Errore durante la ricerca");
             System.exit(1);
         } finally {
-        	out.close();
-			in.close();
-			socket.close();
+        	
             btnCerca.setDisable(false); //riattiviamo pulsante
             
         }
