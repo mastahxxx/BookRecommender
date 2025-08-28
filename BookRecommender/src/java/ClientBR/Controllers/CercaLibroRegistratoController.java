@@ -109,7 +109,7 @@ consigliato.setNoteStile("Linguaggio denso, tante citazioni", "Admin");
 
                 //si può cercare per autore, titolo oppure autore ed anno
         Helpers.showInfo("inserisci titolo, autore oppure autore e anno", lblErr);
-        if(titolo.equals(null) || autore.equals(null)) {
+        if(titolo.equals("") || autore.equals("")) {
             Helpers.showError("Inserisci titolo o autore", lblErr);
         }
 
