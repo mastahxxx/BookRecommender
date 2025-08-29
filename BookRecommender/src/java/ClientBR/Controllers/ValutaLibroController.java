@@ -4,7 +4,12 @@ import ClassiCondivise.Libro;
 import javafx.collections.FXCollections;      
 import javafx.collections.ObservableList;     
 import javafx.fxml.FXML;                      
-import javafx.scene.control.*;    
+import javafx.scene.control.*;  
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 
 
 
@@ -30,7 +35,7 @@ public class ValutaLibroController {
     @FXML private void initialize() {
         Helpers.clearError(lblErr);
 
-        caricaMieiLibri(SceneNavigator.getUserID()); // TODO: riempi mieiLibri dal DB
+        caricaMieiLibri(SceneNavigator.getUserID()); 
 
         cbLibro.setItems(mieiLibri); // collega i libri 
         cbLibro.valueProperty().addListener(this::onLibroChanged); // quando cambia libro, reset campi
@@ -114,8 +119,25 @@ public class ValutaLibroController {
         if (!isBlank(taEdizione.getText())) l.setNoteEdizione(taEdizione.getText().trim(), autore);
 
         // TODO: mandare al  DB il libro l con voti e note salvate
-
-        Helpers.showInfo("Valutazione salvata!", lblErr);              
+        boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	out.writeObject("INSETISCI VALUTAZIONE");
+        	out.writeObject(l);
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+        if(ok) {
+        	Helpers.showInfo("Valutazione salvata!", lblErr);
+        }
+                      
     }
 
     private void onVotoChanged(javafx.beans.value.ObservableValue<? extends Integer> obs,
@@ -176,44 +198,27 @@ public class ValutaLibroController {
 
     private boolean isBlank(String s) { return s == null || s.trim().isEmpty(); } // util
 
-   // private void caricaMieiLibri(String userId) { //come in suggerimenticontroller
+    private void caricaMieiLibri(String userId) { //come in suggerimenticontroller
         // TODO
-    //    mieiLibri.clear(); 
-    //}
-
-
-    //STUB TEST
-    private void caricaMieiLibri(String userID) { // da eliminare quando il vero metodo verrà creato
-    mieiLibri.clear();
-
-    String suffisso = (userID == null || userID.isBlank()) ? "" : " — utente " + userID;
-
-    Libro l1 = new Libro();
-    l1.setTitolo("Il Gattopardo" + suffisso);
-    l1.setAutore("Giuseppe Tomasi di Lampedusa");
-    l1.setAnnoPubblicazione("1958");
-
-    Libro l2 = new Libro();
-    l2.setTitolo("Se questo è un uomo" + suffisso);
-    l2.setAutore("Primo Levi");
-    l2.setAnnoPubblicazione("1947");
-
-    Libro l3 = new Libro();
-    l3.setTitolo("Le città invisibili" + suffisso);
-    l3.setAutore("Italo Calvino");
-    l3.setAnnoPubblicazione("1972");
-
-    Libro l4 = new Libro();
-    l4.setTitolo("La coscienza di Zeno" + suffisso);
-    l4.setAutore("Italo Svevo");
-    l4.setAnnoPubblicazione("1923");
-
-    Libro l5 = new Libro();
-    l5.setTitolo("Il nome della rosa" + suffisso);
-    l5.setAutore("Umberto Eco");
-    l5.setAnnoPubblicazione("1980");
-
-    mieiLibri.addAll(l1, l2, l3, l4, l5);
-}
+    	boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	UtenteRegistrato ur = new UtenteRegistrato();
+        	ur.setUserId(UserID);
+        	out.writeObject("CARICA LIBRI LIBRERIE CLIENT");
+        	out.writeObject(ur);
+        	mieiLibri = (ObservableList<Libro>) in.readObject();
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+    	mieiLibri.clear(); 
+    }
 
 }
