@@ -13,7 +13,6 @@ import java.net.Socket;
 import ClassiCondivise.Libreria;
 import ClassiCondivise.Libro;
 import ClassiCondivise.UtenteRegistrato;
-import ClientBR.Controllers.Helpers;
 
 public class ServerThread extends Thread {
     private DataBase db;
@@ -55,46 +54,53 @@ public class ServerThread extends Thread {
                         break;
                     case "CONSULTA REPOSITORY TITOLO":
                         l = (Libro) in.readObject();
-                       // Libro l2 = db.cercaLibroPerTitolo(l);
+                        l2 = db.cercaLibroPerTitolo(l);
                         out.writeObject(l2);
                     case "CONSULTA REPOSITORY AUTORE":
                          l = (Libro) in.readObject();
-                      //  Libro l2 = db.cercaLibroPerAutore(l);
-                       // out.writeObject(l2);
+                         l2 = db.cercaLibroPerAutore(l);
+                         out.writeObject(l2);
                     case "CONSULTA REPOSITORY ANNO E AUTORE":
-                         l = (Libro) in.readObject();
-                       // Libro l2 = db.cercaLibroPerAutoreAnno(l);
+                        l = (Libro) in.readObject();
+                        l2 = db.cercaLibroPerAutoreAnno(l);
                         out.writeObject(l2);
 
                     case "Registrazine":
                         u = (UtenteRegistrato) in.readObject();
-                        
-                        System.exit(1);
-                       // esito = db.insertUtente(u);
-                       // out.writeObject(esito);
+                        esito = db.insertUtente(u);
+                        out.writeObject(esito);
                         break;
                     case "LOGIN":
                     	u = (UtenteRegistrato) in.readObject();
-                    	////esito = db.login(u);
-                       // out.writeObject(esito);
-                       System.out.println("FERNANDO MENDOSA");
+                    	esito = db.login(u);
+                        out.writeObject(esito);
                         break;
                
                     case "INSETISCI VALUTAZIONE":
                         l = (Libro) in.readObject();
-                      //  esito = db.iserisciValutazioni(l);
-                       // out.writeObject(esito);
+                        esito = db.iserisciValutazioni(l);
+                        out.writeObject(esito);
                         break;
 
                     case "REGISTRA LIBRERIA":
                         libreria = (Libreria) in.readObject();
-                       // db.InserisciLibreria(libreria);
+                        db.InserisciLibreria(libreria);
                     case "CONSIGLIA LIBRI":
                         String libriConsigliati = (String) in.readObject();
                         u = (UtenteRegistrato) in.readObject();
-                      //  esito = db.InserisciConsigli(u, libriConsigliati);
-                       // out.writeObject(esito);
+                        esito = db.InserisciConsigli(u, libriConsigliati);
+                        out.writeObject(esito);
                         break;
+                    case "CONTROLLA USERID":
+                    	u = (UtenteRegistrato) in.readObject();
+                    	esito = db.controllaUserId(u); // da implementare
+                        out.writeObject(esito);
+                    	break;
+                    case "CONTROLLA EMAIL":
+                    	u = (UtenteRegistrato) in.readObject();
+                    	esito = db.controllaEmail(u); //da implementare
+                        out.writeObject(esito);
+                    	break
                     default:
                         break;
                 }

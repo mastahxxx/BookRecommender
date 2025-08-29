@@ -47,7 +47,6 @@ public class LoginController {
         }
         boolean ok = false;
         try {
-            // TODO: integra la ricerca reale DB
         	InetAddress addr = InetAddress.getByName(null);
     		Socket socket=new Socket(addr, 8999);
     		ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());

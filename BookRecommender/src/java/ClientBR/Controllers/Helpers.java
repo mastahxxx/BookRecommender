@@ -1,6 +1,12 @@
 package ClientBR.Controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import ClassiCondivise.UtenteRegistrato;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 
 public class Helpers {  // Helpers, metodi di supporto
                                                                   
@@ -54,11 +60,51 @@ public static boolean validEmail(String mail) {
     }
 
 //metodi da fare col DB
-//TODO public static boolean emailAlreadyUsed(String email);
-//aggiungere controlloo email DB
+//TODO 
+    public static boolean emailAlreadyUsed(String email) {
+    	boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	UtenteRegistrato ur = new UtenteRegistrato();
+        	ur.setMail(email);
+        	out.writeObject("CONTROLLA EMAIL");
+        	out.writeObject(ur);
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+        return ok;
+    }
 
 
-//TODO public static boolean userIDAlreadyUsed(String UserID);
-//aggiungere controllo USerId Dal DB
+
+
+    public static boolean userIDAlreadyUsed(String UserID) {
+    	boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	UtenteRegistrato ur = new UtenteRegistrato();
+        	ur.setUserId(UserID);
+        	out.writeObject("CONTROLLA USERID");
+        	out.writeObject(ur);
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+        return ok;
+    }
+
 
 }
