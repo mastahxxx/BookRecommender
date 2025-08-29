@@ -86,7 +86,8 @@ public class ServerThread extends Thread {
                         libreria = (Libreria) in.readObject();
                         db.InserisciLibreria(libreria);
                     case "CONSIGLIA LIBRI":
-                        String libriConsigliati = (String) in.readObject();
+                    	//da rivedere
+                        Libro libriConsigliati = (Libro) in.readObject();
                         u = (UtenteRegistrato) in.readObject();
                         esito = db.InserisciConsigli(u, libriConsigliati);
                         out.writeObject(esito);
@@ -100,7 +101,12 @@ public class ServerThread extends Thread {
                     	u = (UtenteRegistrato) in.readObject();
                     	esito = db.controllaEmail(u); //da implementare
                         out.writeObject(esito);
-                    	break
+                    	break;
+                    case "CARICA LIBRI LIBRERIE CLIENT":
+                    	u = (UtenteRegistrato) in.readObject();
+                    	esito = db.controllaEmail(u); //da implementare
+                        out.writeObject(esito);
+                    	break;
                     default:
                         break;
                 }

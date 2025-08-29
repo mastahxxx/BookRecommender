@@ -59,8 +59,7 @@ public static boolean validEmail(String mail) {
 
     }
 
-//metodi da fare col DB
-//TODO 
+ 
     public static boolean emailAlreadyUsed(String email) {
     	boolean ok = false;
         try {

@@ -1,3 +1,4 @@
+//da visitare
 package ClientBR.Controllers;
 
 import javafx.collections.FXCollections;
@@ -99,7 +100,7 @@ public class SuggerimentiController {
 
     @FXML private void onSalva(){
 
-        var lib = cbLibro.getValue();
+        Libro lib = cbLibro.getValue();
 
         if(lib == null) {
             Helpers.showError("seleziona un libro dalla libreria", lblErr);
@@ -113,18 +114,52 @@ public class SuggerimentiController {
         lib.getLibriConsigliati().clear();
         lib.getLibriConsigliati().addAll(selezionati);
         //TODO: salvare sul DB il libro lib, che ora contiene i suggerimenti.
-        Boolean ok = true; //STUB da rimuovere con un boolean di conferma da parte del DB
+        boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	out.writeObject("CONSIGLIA LIBRI");
+        	out.writeObject(lib);
+        	mieiLibri = (ObservableList<Libro>) in.readObject();
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+        
 
         if (ok) {Helpers.showInfo("suggerimenti salvati con successo", lblErr);}
         }
     
-    //    private void caricaMieiLibri(String userId){
-    //        //TODO: unire al db e fornire tutti i libri presenti in tutte le librerie del utente
-    //        mieiLibri.clear();
-    //        disponibili.clear();
-    //        selezionati.clear();
-    //        ultimoLibro = null;
-     //   }
+        private void caricaMieiLibri(String userId){
+            //TODO: unire al db e fornire tutti i libri presenti in tutte le librerie del utente
+        	boolean ok = false;
+            try {
+            	InetAddress addr = InetAddress.getByName(null);
+            	Socket socket=new Socket(addr, 8999);
+            	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            	UtenteRegistrato ur = new UtenteRegistrato();
+            	ur.setUserId(UserID);
+            	out.writeObject("CARICA LIBRI LIBRERIE CLIENT");
+            	out.writeObject(ur);
+            	mieiLibri = (ObservableList<Libro>) in.readObject();
+            	ok = (boolean) in.readObject(); 
+                out.close();
+        		in.close();
+        		socket.close();
+        	} catch (Exception e) {
+                 
+            }
+            mieiLibri.clear();
+            disponibili.clear();
+            selezionati.clear();
+            ultimoLibro = null;
+        }
 
      private void ricalcolaDisponibli() {
     Libro lib = cbLibro.getValue();
