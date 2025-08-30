@@ -63,7 +63,7 @@ public class SuggerimentiController {
     private void onLibroChanged(javafx.beans.value.ObservableValue<? extends Libro> obs,
         Libro oldV,
         Libro newV) {
-    ricalcolaDisponibli();
+        ricalcolaDisponibli();
 }
 
 
@@ -127,7 +127,6 @@ public class SuggerimentiController {
         	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         	out.writeObject("CONSIGLIA LIBRI");
         	out.writeObject(lib);
-        	mieiLibri = (ObservableList<Libro>) in.readObject();
         	ok = (boolean) in.readObject(); 
             out.close();
     		in.close();
@@ -135,14 +134,11 @@ public class SuggerimentiController {
     	} catch (Exception e) {
              
         }
-        
-
         if (ok) {Helpers.showInfo("suggerimenti salvati con successo", lblErr);}
         }
     
         private void caricaMieiLibri(String userId){
             //TODO: unire al db e fornire tutti i libri presenti in tutte le librerie del utente
-        	boolean ok = false;
             try {
             	InetAddress addr = InetAddress.getByName(null);
             	Socket socket=new Socket(addr, 8999);
@@ -152,8 +148,9 @@ public class SuggerimentiController {
             	ur.setUserId(UserID);
             	out.writeObject("CARICA LIBRI LIBRERIE CLIENT");
             	out.writeObject(ur);
-            	mieiLibri = (ObservableList<Libro>) in.readObject();
-            	ok = (boolean) in.readObject(); 
+            	List<Libro> normalList = new List<>();
+            	normalList = (List<Libro>) in.readObject();
+            	mieiLibri = FXCollections.observableArrayList(normalList); 
                 out.close();
         		in.close();
         		socket.close();
@@ -167,37 +164,37 @@ public class SuggerimentiController {
         }
 
      private void ricalcolaDisponibli() {
-    Libro lib = cbLibro.getValue();
-    boolean cambiato = (lib != null && lib != ultimoLibro) || (lib == null && ultimoLibro != null);
+    	 Libro lib = cbLibro.getValue();
+    	 boolean cambiato = (lib != null && lib != ultimoLibro) || (lib == null && ultimoLibro != null);
 
-    if (cambiato) {
+    	 if (cambiato) {
         // resetta messaggio quando cambio libro
-        lblErr.setText("");
-        lblErr.setStyle(""); // opzionale, così togli anche il colore
+    		 lblErr.setText("");
+    		 lblErr.setStyle(""); // opzionale, così togli anche il colore
         
         
         
         // Ricarica i selezionati dal libro scelto
-        selezionati.clear();
-        if (lib != null && lib.getLibriConsigliati() != null) {
-            for (Libro l : lib.getLibriConsigliati()) {
-                if (selezionati.size() >= LIMITE) break;
-                if (!selezionati.contains(l)) selezionati.add(l);
-            }
-        }
-        ultimoLibro = lib;
-    }
+    		 selezionati.clear();
+    		 if (lib != null && lib.getLibriConsigliati() != null) {
+    			 for (Libro l : lib.getLibriConsigliati()) {
+    				 if (selezionati.size() >= LIMITE) break;
+    				 if (!selezionati.contains(l)) selezionati.add(l);
+    			 }
+    		 }
+    		 ultimoLibro = lib;
+    	 }
 
     // Ricostruisci i disponibili
-    disponibili.clear();
-    for (Libro l : mieiLibri) {
-        if (lib != null && l == lib) continue;   // escludi il libro base
-        if (selezionati.contains(l)) continue;   // escludi già selezionati
-        disponibili.add(l);
-    }
+    	 disponibili.clear();
+    	 for (Libro l : mieiLibri) {
+    		 if (lib != null && l == lib) continue;   // escludi il libro base
+    		 if (selezionati.contains(l)) continue;   // escludi già selezionati
+    		 disponibili.add(l);
+    	 }
 
-    refreshUI();
-}
+    	 refreshUI();
+     }
 
 
     private void refreshUI(){

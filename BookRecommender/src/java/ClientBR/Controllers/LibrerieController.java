@@ -93,6 +93,7 @@ public class LibrerieController {
         // TODO: salvataggio su DB
         librerie.add(nuova);
         tblLibrerie.getSelectionModel().select(nuova);
+        
         Helpers.showInfo("Libreria creata (stub con 1 libro).", lblErr);
         refreshUI();
     }

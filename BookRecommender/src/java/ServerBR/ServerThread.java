@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 import ClassiCondivise.Libreria;
 import ClassiCondivise.Libro;
@@ -30,6 +31,7 @@ public class ServerThread extends Thread {
 
         }
     }
+    /*
      public ServerThread(Socket s) {
         this.socket = s;
         try {
@@ -38,7 +40,8 @@ public class ServerThread extends Thread {
         }catch(IOException e) {
 
         }
-    }
+    }*/
+    
     public void run() {
         try {
             while(true) {
@@ -48,23 +51,16 @@ public class ServerThread extends Thread {
                 Libro l2 = new Libro();
                 Libreria libreria = new Libreria();
                 UtenteRegistrato u;
+                List <libro> ris = new List();
                 boolean esito;
                 switch(request) {
                     case "END":
                         break;
-                    case "CONSULTA REPOSITORY TITOLO":
-                        l = (Libro) in.readObject();
-                        l2 = db.cercaLibroPerTitolo(l);
-                        out.writeObject(l2);
-                    case "CONSULTA REPOSITORY AUTORE":
-                         l = (Libro) in.readObject();
-                         l2 = db.cercaLibroPerAutore(l);
-                         out.writeObject(l2);
-                    case "CONSULTA REPOSITORY ANNO E AUTORE":
-                        l = (Libro) in.readObject();
-                        l2 = db.cercaLibroPerAutoreAnno(l);
-                        out.writeObject(l2);
-
+                    case "CERCA LIBRO":
+                    	l = (Libro) in.readObject();
+                        ris = db.cercaLibro(l);
+                        out.writeObject(ris);
+                        break;
                     case "Registrazine":
                         u = (UtenteRegistrato) in.readObject();
                         esito = db.insertUtente(u);
@@ -85,7 +81,7 @@ public class ServerThread extends Thread {
                         libreria = (Libreria) in.readObject();
                         db.InserisciLibreria(libreria);
                     case "CONSIGLIA LIBRI":
-                    	//da rivedere
+                    	//DA RIVEDERE
                         Libro libriConsigliati = (Libro) in.readObject();
                         u = (UtenteRegistrato) in.readObject();
                         esito = db.InserisciConsigli(u, libriConsigliati);
@@ -93,19 +89,18 @@ public class ServerThread extends Thread {
                         break;
                     case "CONTROLLA USERID":
                     	u = (UtenteRegistrato) in.readObject();
-                    	esito = db.controllaUserId(u); // da implementare
+                    	esito = db.controllaUserId(u); 
                         out.writeObject(esito);
                     	break;
                     case "CONTROLLA EMAIL":
                     	u = (UtenteRegistrato) in.readObject();
-                    	esito = db.controllaEmail(u); //da implementare
+                    	esito = db.controllaEmail(u); 
                         out.writeObject(esito);
                     	break;
                     case "CARICA LIBRI LIBRERIE CLIENT":
-                    	//da fare
                     	u = (UtenteRegistrato) in.readObject();
-                    	esito = db.controllaEmail(u); //da implementare
-                        out.writeObject(esito);
+                    	ris = db.caricaLibrerie(u); 
+                        out.writeObject(ris);
                     	break;
                     default:
                         break;

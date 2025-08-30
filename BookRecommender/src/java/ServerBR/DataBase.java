@@ -6,6 +6,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import ClassiCondivise.Libreria;
+import ClassiCondivise.Libro;
+import ClassiCondivise.UtenteRegistrato;
+
 //import BookRecommender.src.main.java.ClassiCondivise.String;
 
 import java.sql.ResultSet;
@@ -37,41 +41,66 @@ public class DataBase {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        
+        }    
     }
     
-//    public synchronized Libro cercaLibroPerTitolo(l) {
-//    	Libro libro;
-//    	String titolo = l.getTitolo();
-//    	Libro libro  = dbq.libriLibro(titolo);	
-//    	return libro;
-    		
-//  }
-    
-//    public synchronized LinkedList<Libro> cercaLibroPerAutore(l) {
-//    	LinkedList <Libro> result = new LinkedList<Libro>(); //utillizzo una LinkedList perchè potrebbero esserci più libri scritti dallo stesso autore
-//    	Libro libro;
-//    	String autore = l.getAutore();
-//    	result  = dbq.libriAutore(auore); //creare query per la ricerca dei libri in base al nome dell'autore e far ritornare una linkedList di libri
-//    	
-//    	return libro;		
-//    }
-    
-   /*   public synchronized Libro cercaLibroPerAutoreAnno(l) {
+    public synchronized List<Libro> cercaLibroPerAutore(Libro l){
+    	String titolo = l.getTitolo();
     	String autore = l.getAutore();
     	String anno = l.getAnnoPublicazione();
-    	Libro result  = dbq.libriAutoreAnno(auore, anno);	// creare query che restituiscse i libri ricercati per auore e anno
-    	return libro;		
+    	List <libro> ris = new List();
+    	if(titolo != "" && autore != "" && anno != "") {
+    		ris = dbq.ceracaTitoloAutoreAnno(titolo, autore, anno);
+    	}
+    	else {
+    		if(titolo != "" && anno != "") {
+        		ris = dbq.cercaTitoloAnno(titolo, anno);	
+        	}
+    		else {
+    			if(autore != "" && anno != "") {
+    				ris = dbq.cercaAuotreAnno(autore, anno);
+    			}
+    			else {
+    				if(titolo != "") {
+    					ris = dbq.cercaTitolo(titolo);
+    				}
+    				else {
+    					if(titolo != "") {
+        					ris = dbq.cercaAuotre(autore);
+        				}
+    				}
+    			}
+    		} 		
+    	}
+    	return ris;	
     }
     
+    public synchronized List<Libro> caricaLibrerie(UtenteRegistrato u){
+    	List <libro> ris = new List();
+    	String userId = u.getUserId();
+    	ris = dbq.CaricaLibriDalleLibrerie(userId); //metodo che restituisce una lista contenente tutti i libri presenti in tutte le librerie del utente
+    	return ris;
+    }
+    
+    public synchronized boolean controllaEmail(UtenteRegistrato u){
+    	String mail = u.getMail();
+    	boolean esito = dbq.controllaEmailInDB(mail); //metodo che restituisce true se la mail non è presente nel db
+    	return esito;	
+    }
+    
+    public synchronized boolean controllaEmail(UtenteRegistrato u){
+    	String userId = u.getUserId();
+    	boolean esito = dbq.controllaUserIDInDB(userId); //metodo che restituisce true se lo userId non è presente nel db
+    	return esito;	
+    }
+        
     public synchronized boolean insertUtente(UtenteRegistrato u) {
     	String nomeCognome = u.getNomeCognome();
     	String codiceFiscale = u.getCodiceFiscale();
     	String mail = u.getmail();
     	String user = u.getUserId();
     	String password = u.getPassoword();
-    	boolean esito = dbi.inserisciUtente(nomecognome, codiceFiscale, mail, user, password); //metodo ceh deve controllare se la mail e lo userId esistono già nel db; in caso di esito negativo l'utente viene inserito all'interno del db
+    	boolean esito = dbi.inserisciUtente(nomeCognome, codiceFiscale, mail, user, password); l'utente viene inserito all'interno del db
     	return esito;
     }
     
@@ -118,6 +147,6 @@ public class DataBase {
     		esito = dbi.inserisciLibriConsigliatiInDb(u, vettConsigliati); //metodo che inserisce i libri consigliati nel db e restitusice true in caso di esito positivo altrimenti false 
     	}
     	return esito;
-    }   */
+    } 
     
 }
