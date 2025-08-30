@@ -89,7 +89,7 @@ public class RegisterController {
         }
 
 
-        if(!Helpers.userIDAlreadyUsed(userID)){  
+        if(!Helpers.userIDAlreadyUsed(SceneNavigator.getUserID())){  
         	Helpers.showError("UserId già in uso",lblError);
         	controllo = false;
         	return;

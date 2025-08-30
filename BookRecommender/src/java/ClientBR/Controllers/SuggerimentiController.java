@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ClassiCondivise.Libro;
+import ClassiCondivise.UtenteRegistrato;
 import ClientBR.SceneNavigator;
 import ClientBR.Controllers.Helpers;
 import java.io.IOException;
@@ -31,9 +32,9 @@ public class SuggerimentiController {
     @FXML private Label lblErr;
 
     private static final int LIMITE = 3;
-    private final ObservableList<Libro> mieiLibri = FXCollections.observableArrayList(); //TODO popolare dal DB con tutti i libri disponibili in tutte le librerie del utente  
-    private final ObservableList<Libro> disponibili = FXCollections.observableArrayList();
-    private final ObservableList<Libro> selezionati = FXCollections.observableArrayList();
+    private ObservableList<Libro> mieiLibri = FXCollections.observableArrayList(); //TODO popolare dal DB con tutti i libri disponibili in tutte le librerie del utente  
+    private ObservableList<Libro> disponibili = FXCollections.observableArrayList();
+    private ObservableList<Libro> selezionati = FXCollections.observableArrayList();
 
     private Libro ultimoLibro;
 
@@ -137,7 +138,7 @@ public class SuggerimentiController {
         if (ok) {Helpers.showInfo("suggerimenti salvati con successo", lblErr);}
         }
     
-        private void caricaMieiLibri(String userId){
+        private void caricaLibri(String userId){
             //TODO: unire al db e fornire tutti i libri presenti in tutte le librerie del utente
             try {
             	InetAddress addr = InetAddress.getByName(null);
@@ -145,11 +146,11 @@ public class SuggerimentiController {
             	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             	UtenteRegistrato ur = new UtenteRegistrato();
-            	ur.setUserId(UserID);
+            	ur.setUserId(SceneNavigator.getUserID());
             	out.writeObject("CARICA LIBRI LIBRERIE CLIENT");
             	out.writeObject(ur);
-            	List<Libro> normalList = new List<>();
-            	normalList = (List<Libro>) in.readObject();
+            	
+            	List<Libro> normalList = (List<Libro>) in.readObject();
             	mieiLibri = FXCollections.observableArrayList(normalList); 
                 out.close();
         		in.close();
@@ -203,40 +204,6 @@ public class SuggerimentiController {
     }
 
 
-             private void caricaLibri(String userId) { //METODO PER TEST; CANCELLARE E IMPLEMENTARE IL METODO A RIGA 114
-    // Reset liste
-    mieiLibri.clear();
-    disponibili.clear();
-    selezionati.clear();
-    ultimoLibro = null;
-
-    // --- DATI FINTI PER TEST ---
-    
-    Libro l1 = new Libro();
-    l1.setTitolo("Il nome della rosa");
-    l1.setAutore("Umberto Eco");
-    l1.setAnnoPubblicazione("1980");
-    Libro l2 = new Libro();
-    l2.setTitolo("1984");
-    l2.setAutore("George Orwell");
-    l2.setAnnoPubblicazione("1949");
-    Libro l3 = new Libro();
-    l3.setTitolo("Il Signore degli Anelli");
-    l3.setAutore("J.R.R. Tolkien");
-    l3.setAnnoPubblicazione("1954");
-    Libro l4 = new Libro();
-    l4.setTitolo("Cecità");
-    l4.setAutore("José Saramago");
-    l4.setAnnoPubblicazione("1995");
-    Libro l5 = new Libro();
-    l5.setTitolo("La coscienza di Zeno");
-    l5.setAutore("Italo Svevo");
-    l5.setAnnoPubblicazione("1923");
-    mieiLibri.addAll(l1, l2, l3, l4, l5);
-    l1.getLibriConsigliati().add(l2);
-    l1.getLibriConsigliati().add(l4);
-    cbLibro.getSelectionModel().select(l1);
-}
 
 
     

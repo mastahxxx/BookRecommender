@@ -3,6 +3,7 @@ package ClientBR.Controllers;
 import ClientBR.SceneNavigator;
 import ClassiCondivise.Libreria;
 import ClassiCondivise.Libro;
+import ClassiCondivise.UtenteRegistrato;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,6 +15,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.Optional;
 
 public class LibrerieController {
@@ -29,7 +34,7 @@ public class LibrerieController {
     @FXML private Label lblErr;
 
     private final ObservableList<Libreria> librerie = FXCollections.observableArrayList();
-    private final static String userId;
+    private static String userId;
 
     private static final int MAX_NAME = 40;
 

@@ -1,6 +1,7 @@
 package ClientBR.Controllers;
 import ClientBR.SceneNavigator;              
-import ClassiCondivise.Libro;                
+import ClassiCondivise.Libro;
+import ClassiCondivise.UtenteRegistrato;
 import javafx.collections.FXCollections;      
 import javafx.collections.ObservableList;     
 import javafx.fxml.FXML;                      
@@ -30,7 +31,7 @@ public class ValutaLibroController {
     @FXML private Label lblErr;
     @FXML private TextField tfVotoFinale;
                
-    private final ObservableList<Libro> mieiLibri = FXCollections.observableArrayList();
+    private ObservableList<Libro> mieiLibri = FXCollections.observableArrayList();
 
     @FXML private void initialize() {
         Helpers.clearError(lblErr);
@@ -207,7 +208,7 @@ public class ValutaLibroController {
         	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         	UtenteRegistrato ur = new UtenteRegistrato();
-        	ur.setUserId(UserID);
+        	ur.setUserId(SceneNavigator.getUserID());
         	out.writeObject("CARICA LIBRI LIBRERIE CLIENT");
         	out.writeObject(ur);
         	mieiLibri = (ObservableList<Libro>) in.readObject();
