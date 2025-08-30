@@ -24,6 +24,7 @@ public class RegisterController {
 
     @FXML private void initialize() {
         Helpers.clearError(lblError);
+        
     }
 
     //Bottoni torna, accedi e conferma

@@ -81,7 +81,6 @@ public class ServerThread extends Thread {
                         esito = db.iserisciValutazioni(l);
                         out.writeObject(esito);
                         break;
-
                     case "REGISTRA LIBRERIA":
                         libreria = (Libreria) in.readObject();
                         db.InserisciLibreria(libreria);
@@ -103,6 +102,7 @@ public class ServerThread extends Thread {
                         out.writeObject(esito);
                     	break;
                     case "CARICA LIBRI LIBRERIE CLIENT":
+                    	//da fare
                     	u = (UtenteRegistrato) in.readObject();
                     	esito = db.controllaEmail(u); //da implementare
                         out.writeObject(esito);
