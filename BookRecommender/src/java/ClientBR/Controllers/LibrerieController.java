@@ -29,11 +29,13 @@ public class LibrerieController {
     @FXML private Label lblErr;
 
     private final ObservableList<Libreria> librerie = FXCollections.observableArrayList();
+    private final static String userId;
 
     private static final int MAX_NAME = 40;
 
     @FXML private void initialize() {
         
+    	userId = SceneNavigator.getUserID();
         tNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 
         tNumero.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Libreria, String>, ObservableValue<String>>() {
@@ -86,16 +88,31 @@ public class LibrerieController {
 
         //STUB: crea libreria con 1 libro finto dentro
         Libreria nuova = new Libreria(nome);
-        Libro finto = new Libro();
-        finto.setTitolo("Libro demo di " + nome);
-        nuova.getContenuto().add(finto);
-
-        // TODO: salvataggio su DB
-        librerie.add(nuova);
-        tblLibrerie.getSelectionModel().select(nuova);
+        boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	UtenteRegistrato ur = new UtenteRegistrato();
+        	ur.setUserId(userId);
+        	out.writeObject("REGISTRA LIBRERIA");
+        	out.writeObject(ur);
+        	out.writeObject(nuova);
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+        if(ok) {
+        	librerie.add(nuova);
+            tblLibrerie.getSelectionModel().select(nuova);
+        	Helpers.showInfo("Libreria creata (stub con 1 libro).", lblErr);
+            refreshUI();
+        }
         
-        Helpers.showInfo("Libreria creata (stub con 1 libro).", lblErr);
-        refreshUI();
     }
 
     @FXML private void onRinomina() {
@@ -126,12 +143,33 @@ public class LibrerieController {
             Helpers.showError("Esiste gia una libreria con questo nome.", lblErr);
             return;
         }
-
+        String nomeVecchio = nomeAttuale;
         sel.setNome(nuovo);
-        // TODO: aggiornare lato DB
-        tblLibrerie.refresh();
-        Helpers.showInfo("Libreria rinominata.", lblErr);
-        refreshUI();
+        boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	UtenteRegistrato ur = new UtenteRegistrato();
+        	ur.setUserId(userId);
+        	out.writeObject("RINOMINA LIBRERIA");
+        	out.writeObject(ur);
+        	out.writeObject(sel);
+        	out.writeObject(nomeVecchio);
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+        if(ok) {
+        	tblLibrerie.refresh();
+        	Helpers.showInfo("Libreria rinominata.", lblErr);
+            refreshUI();
+        }
+        
     }
 
     @FXML private void onElimina() {
@@ -151,9 +189,30 @@ public class LibrerieController {
         if (!conferma.isPresent() || conferma.get() != ButtonType.OK) return;
 
         // TODO: eliminazione su DB
-        librerie.remove(sel);
-        Helpers.showInfo("Libreria eliminata.", lblErr);
-        refreshUI();
+        boolean ok = false;
+        try {
+        	InetAddress addr = InetAddress.getByName(null);
+        	Socket socket=new Socket(addr, 8999);
+        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        	UtenteRegistrato ur = new UtenteRegistrato();
+        	ur.setUserId(userId);
+        	out.writeObject("ELIMINA LIBRERIA");
+        	out.writeObject(ur);
+        	out.writeObject(sel);
+        	ok = (boolean) in.readObject(); 
+            out.close();
+    		in.close();
+    		socket.close();
+    	} catch (Exception e) {
+             
+        }
+        if(ok) {
+        	librerie.remove(sel);
+            Helpers.showInfo("Libreria eliminata.", lblErr);
+            refreshUI();
+        }
+        
     }
 
     private void apriSelezionata() {

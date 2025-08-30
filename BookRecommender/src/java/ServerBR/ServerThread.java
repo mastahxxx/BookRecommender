@@ -78,8 +78,21 @@ public class ServerThread extends Thread {
                         out.writeObject(esito);
                         break;
                     case "REGISTRA LIBRERIA":
+                    	u = (UtenteRegistrato) in.readObject();
                         libreria = (Libreria) in.readObject();
-                        db.InserisciLibreria(libreria);
+                        esito = db.InserisciLibreria(u,libreria);
+                        out.writeObject(esito);
+                    case "RINOMINA LIBRERIA":
+                    	u = (UtenteRegistrato) in.readObject();
+                        libreria = (Libreria) in.readObject();
+                        String nomeVecchio = (String) in.readObject();
+                        esito = db.RinominaNomeLibreria(u,libreria, nomeVecchio);
+                        out.writeObject(esito);
+                    case "ELIMINA LIBRERIA":
+                    	u = (UtenteRegistrato) in.readObject();
+                        libreria = (Libreria) in.readObject();
+                        esito = db.EliminaLibreria(u,libreria); //DA FAre
+                        out.writeObject(esito);
                     case "CONSIGLIA LIBRI":
                     	//DA RIVEDERE
                         Libro libriConsigliati = (Libro) in.readObject();

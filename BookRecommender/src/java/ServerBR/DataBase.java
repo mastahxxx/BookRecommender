@@ -23,12 +23,14 @@ public class DataBase {
     private DbQuery dbq;
     private DbInsert dbi;
     private DbUpdate dbu;
+    private DbDelete dbd;
 
 
     public DataBase(){
         dbq = new DbQuery();
         dbi = new DbInsert();
         dbu = new DbUpdate();
+        dbd = new DbDelete();
     	try {
 
             Connection connection = DriverManager.getConnection(url, user, password);
@@ -132,13 +134,35 @@ public class DataBase {
     	return controllo;
     }
     
-    public synchronized boolean InserisciLibreria(Libreria libreria) {
+    public synchronized boolean InserisciLibreria(UtenteRegistrato u, Libreria libreria) {
     	String nome = libreria.getNome();
-    	LinkedList contenuto = libreria.getContenuto();
-    	boolean controllo = dbi.InserisciLibreriaDb(nome, contenuto); //metrodo che inserisci la libreira creata dall'utente nel db; in caso di esito positivo restituisce true altrimenti flase
+    	LinkedList<Libro> contenuto = libreria.getContenuto();
+    	String userId = u.getUserId();
+    	//MODIFICA METODO
+    	//Ora il metodo InserisciLibreriaDb inserisce nella tabella librerie lo userId dell'utente che lha creata il nome che gli è stata assegnata 
+    	//e i libri inseriti dentro e restituisce true in caso di sucesso altriment false
+    	boolean controllo = dbi.InserisciLibreriaDb(userId, nome, contenuto); 
     	return controllo;
     }
     
+    public synchronized boolean RinominaNomeLibreria(UtenteRegistrato u, Libreria libreria, String nomeVecchio) {
+    	String nomeNuovo = libreria.getNome(); //nome che l'utente ha rinominato
+    	//nomeVecchio è il nome che la libreira aveva prima della modifica
+    	String userId = u.getUserId();
+    	//metodo che aggiorna il nome della libreria e restituisce true in caso di successo, false altrimenti
+    	boolean controllo = dbu.rinominaLibreriaInDb(userId, nomeNuovo, nomeVecchio); 
+    	return controllo;
+    }
+    
+    public synchronized boolean EliminaLibreria(UtenteRegistrato u, Libreria libreria) {
+    	String nome = libreria.getNome();
+    	String userId = u.getUserId();
+    	//metodo che elimina la libreria dal Db e restituisce true in caso di successo altrimenti false
+    	boolean controllo = dbd.EliminaLibreriaInDb(userId, nome); 
+    	return controllo;
+    }
+    
+    //DA RIGUARDARE
     public synchronized boolean InserisciConsigli(UtenteRegistrato u, String libriConsigliati) {
     	String[] vettConsigliati = libriConsigliati.split(";"); //vettore che avrà max dim 4; in pos 0 contiene il tittolo del libro su cui l'utente starà effettuando i consigli mentre nelle rimanente ci saranno i libri consigliati
     	boolean controllo = dbq.controllaLibroInLibreria(u, vettConsigliati[0]); //metodo che controlla se il libro è presente nelle librerie dell'utente; se è presente restituisce true altrimenti flase

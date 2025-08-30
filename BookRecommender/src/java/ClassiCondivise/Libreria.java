@@ -1,8 +1,10 @@
 package ClassiCondivise;
 
 import java.util.LinkedList;
+import java.io.Serializable;
 
-public class Libreria {
+public class Libreria implements Serializable{
+	public static final long SerialVersionUID = 1L;
     private String nome;
     private LinkedList<Libro> contenuto;
     private boolean controllo;
