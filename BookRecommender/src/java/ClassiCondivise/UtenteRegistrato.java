@@ -2,9 +2,12 @@ package ClassiCondivise;
 
 import java.io.Serializable;
 
-public class UtenteRegistrato implements Serializable{
+/**
+ * Rappresenta un utente registrato con dati anagrafici e credenziali di accesso.
+ */
+public class UtenteRegistrato implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private String nomeCognome;
     private String codiceFiscale;
     private String mail;
@@ -12,52 +15,43 @@ public class UtenteRegistrato implements Serializable{
     private String password;
     private boolean controllo;
 
-    public String getNomeCognome() {
-        return this.nomeCognome;
-    }
+    //Getter
 
-    public String getCodiceFiscale() {
-    	return this.codiceFiscale;
-    }
-    public String getMail() {
-        return this.mail;
-    }
+    /** @return nome e cognome dell'utente */
+    public String getNomeCognome() { return this.nomeCognome; }
 
-    public String getUserId() {
-        return this.userId;
-    }
+    /** @return codice fiscale dell'utente */
+    public String getCodiceFiscale() { return this.codiceFiscale; }
 
-    public String getPassoword() {
-        return this.password;
-    }
+    /** @return indirizzo e-mail dell'utente */
+    public String getMail() { return this.mail; }
 
-    public void setNomeCognome(String nomeCognome) {
-        this.nomeCognome = nomeCognome;
-    }
-    
-    public void setCodiceFiscale(String codiceFiscale) {
-        this.codiceFiscale = codiceFiscale;
-    }
+    /** @return user ID scelto dall'utente */
+    public String getUserId() { return this.userId; }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
+    /** @return password dell'utente */
+    public String getPassoword() { return this.password; }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    /** @return flag di controllo */
+    public boolean getControllo() { return this.controllo; }
 
-    public void setPassoword(String password) {
-        this.password = password;
-    }
+    //Setter
 
-    public boolean getControllo() {
-        return this.controllo;
-    }
+    /** @param nomeCognome nuovo nome e cognome */
+    public void setNomeCognome(String nomeCognome) { this.nomeCognome = nomeCognome; }
 
-    public void setControllo(boolean c) {
-        this.controllo = c;
-    }
+    /** @param codiceFiscale nuovo codice fiscale */
+    public void setCodiceFiscale(String codiceFiscale) { this.codiceFiscale = codiceFiscale; }
 
+    /** @param mail nuovo indirizzo e-mail */
+    public void setMail(String mail) { this.mail = mail; }
 
+    /** @param userId nuovo user ID */
+    public void setUserId(String userId) { this.userId = userId; }
+
+    /** @param password nuova password */
+    public void setPassoword(String password) { this.password = password; }
+
+    /** @param c nuovo valore del flag di controllo */
+    public void setControllo(boolean c) { this.controllo = c; }
 }

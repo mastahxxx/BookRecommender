@@ -4,55 +4,37 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import ClientBR.SceneNavigator;
 
+/**
+ * Controller della schermata Home.
+ */
 public class HomeController {
 
-    // fxid dei bottoni di home, in questo caso non ci servono ma è utile averli per modifiche future
     @FXML private Button btnCercaLibri;
     @FXML private Button btnAccedi;
     @FXML private Button btnRegistrati;
     @FXML private Button btnEsci;
 
-
-    //handler dei bottoni
+    /** Naviga alla schermata di ricerca libri (non registrat). */
     @FXML
-    private void onCercaLibri(){
+    private void onCercaLibri() {
         SceneNavigator.switchToCercaLibri();
     }
 
+    /** Naviga alla schermata di login. */
     @FXML
-    private void onAccedi(){
+    private void onAccedi() {
         SceneNavigator.switchToLogin();
     }
 
+    /** Naviga alla schermata di registrazione. */
     @FXML
     private void onRegistrati() {
         SceneNavigator.switchToRegister();
     }
 
+    /** Chiude l'applicazione. */
     @FXML
-    private void onEsci(){
+    private void onEsci() {
         SceneNavigator.Esci();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

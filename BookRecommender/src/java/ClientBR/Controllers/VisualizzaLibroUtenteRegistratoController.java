@@ -1,5 +1,7 @@
 package ClientBR.Controllers;
 
+import ClientBR.SceneNavigator;
+import ClassiCondivise.Libro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,13 +9,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import ClassiCondivise.Libro;
-import ClientBR.SceneNavigator;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Controller per la visualizzazione dei dettagli di un libro in modalità utente registrato.
+ * <p>Mostra voti, note e i libri consigliati, con possibilità di navigare ad altri libri.</p>
+ */
 public class VisualizzaLibroUtenteRegistratoController {
 
     @FXML private Label libroVisionato;
@@ -31,50 +35,58 @@ public class VisualizzaLibroUtenteRegistratoController {
     @FXML private TableColumn<Libro, String> tAutore;
     @FXML private TableColumn<Libro, String> tAnno;
 
+    /** Libro attualmente visualizzato. */
     private Libro libro;
+    /** Modello per la tabella dei consigliati. */
     private final ObservableList<Libro> consigliatiData = FXCollections.observableArrayList();
 
+    /**
+     * Inizializza UI, recupera il libro da {@link SceneNavigator} e imposta listener.
+     */
     @FXML private void initialize() {
-
-
         this.libro = SceneNavigator.getLibro();
         refreshUI();
 
-        note.setEditable(false); //l' utente non può scrivere nella textarea
-        note.setWrapText(true); //per andare a capo automaticamente
+        note.setEditable(false);
+        note.setWrapText(true);
 
-        //le colonne si aggiornano in automatico attraverso i getter corrispondenti
         tTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
         tAutore.setCellValueFactory(new PropertyValueFactory<>("autore"));
-        tAnno.setCellValueFactory(new PropertyValueFactory<>("annoPubblicazione")); // 2 b
+        tAnno.setCellValueFactory(new PropertyValueFactory<>("annoPubblicazione"));
         tblViewConsigli.setItems(consigliatiData);
-        //doppio click per aprire il libro selezionato
+
         tblViewConsigli.setOnMouseClicked(this::clickTabella);
     }
-    
+
+    /** Doppio click sulla tabella per aprire il libro selezionato. */
     private void clickTabella(MouseEvent e) {
-    if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
-        apriLibro();
-    }
-    }
-    //bottoni
-    @FXML private void onCercaLibri(){
-        SceneNavigator.switchToCercaLibri();
-    }
-    @FXML private void onLogout(){
-        SceneNavigator.logout();
-    }
-    @FXML private void onIndietro(){
-        SceneNavigator.switchToUtenteRegistrato();
+        if (e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
+            apriLibro();
+        }
     }
 
-    public void apriLibro() { 
-        Libro sel = tblViewConsigli.getSelectionModel().getSelectedItem(); //prendiamo il libro selezionato dal utente
+
+    /** Vai alla ricerca libri (utente registrato). */
+    @FXML private void onCercaLibri() { SceneNavigator.switchToCercaLibri(); }
+
+    /** Logout. */
+    @FXML private void onLogout() { SceneNavigator.logout(); }
+
+    /** Torna all’area utente registrato. */
+    @FXML private void onIndietro() { SceneNavigator.switchToUtenteRegistrato(); }
+
+    /**
+     * Apre nei dettagli il libro selezionato dalla tabella consigliati
+     * e aggiorna la vista.
+     */
+    public void apriLibro() {
+        Libro sel = tblViewConsigli.getSelectionModel().getSelectedItem();
         if (sel == null) return;
         this.libro = sel;
         refreshUI();
     }
 
+    /** Aggiorna tutte le label, textarea e i libri consigliati in base al libro corrente. */
     private void refreshUI() {
         if (libro == null) {
             clearUI();
@@ -93,22 +105,23 @@ public class VisualizzaLibroUtenteRegistratoController {
         edizione.setText("voto edizione: " + libro.getEdizione());
         originalita.setText("voto originalità: " + libro.getOriginalita());
 
-        int media = (libro.getStile() + libro.getContenuto() + libro.getGradevolezza() + libro.getEdizione() + libro.getOriginalita()) / 5;
+        int media = (libro.getStile() + libro.getContenuto() + libro.getGradevolezza()
+                   + libro.getEdizione() + libro.getOriginalita()) / 5;
         votoFinale.setText("voto finale: " + media);
 
         note.setText(concatenaNote(
             libro.getNoteStile(),
             libro.getNoteContenuto(),
             libro.getNoteGradevolezza(),
-            libro.getNoteOriginalità(), 
+            libro.getNoteOriginalità(),
             libro.getNoteEdizione()
         ));
 
-        //mostriamo nella tableview i libri consigliati
         LinkedList<Libro> consigliati = libro.getLibriConsigliati();
         consigliatiData.setAll(consigliati == null ? List.of() : consigliati);
     }
 
+    /** Pulisce i campi quando non c’è un libro da mostrare. */
     private void clearUI() {
         libroVisionato.setText("");
         stile.setText("");
@@ -121,9 +134,13 @@ public class VisualizzaLibroUtenteRegistratoController {
         consigliatiData.clear();
     }
 
-    
-    private final String concatenaNote(List<String>... liste) {
-        StringBuilder sb = new StringBuilder();//buffer per costruire la stringa finale
+    /**
+     * Concatena tutte le note fornite in un’unica stringa con separatori.
+     * @param liste liste di note (per categoria)
+     * @return testo unico con note concatenate
+     */
+    private String concatenaNote(List<String>... liste) {
+        StringBuilder sb = new StringBuilder();
         for (List<String> l : liste) {
             if (l == null) continue;
             for (String n : l) {

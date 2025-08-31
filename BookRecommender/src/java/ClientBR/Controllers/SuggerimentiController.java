@@ -1,4 +1,4 @@
-//da visitare
+// da visitare
 package ClientBR.Controllers;
 
 import javafx.collections.FXCollections;
@@ -6,20 +6,22 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ClassiCondivise.Libro;
 import ClassiCondivise.UtenteRegistrato;
 import ClientBR.SceneNavigator;
-import ClientBR.Controllers.Helpers;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
 import java.net.InetAddress;
 import java.net.Socket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class SuggerimentiController {   
+/**
+ * Controller per gestione dei suggerimenti.
+ * <p>Permette di scegliere fino a {@value #LIMITE} libri consigliati per un libro dell'utente.</p>
+ */
+public class SuggerimentiController {
 
     @FXML private Button btnAdd;
     @FXML private Button btnRemove;
@@ -31,72 +33,85 @@ public class SuggerimentiController {
     @FXML private ListView<Libro> lvDisponibili;
     @FXML private Label lblErr;
 
+    /** Numero massimo di suggerimenti consentiti per libro. */
     private static final int LIMITE = 3;
-    private ObservableList<Libro> mieiLibri = FXCollections.observableArrayList(); //TODO popolare dal DB con tutti i libri disponibili in tutte le librerie del utente  
+
+    /** Tutti i libri dell’utente (da DB). */
+    private ObservableList<Libro> mieiLibri = FXCollections.observableArrayList();
+    /** Libri disponibili da aggiungere come suggerimento. */
     private ObservableList<Libro> disponibili = FXCollections.observableArrayList();
+    /** Libri attualmente selezionati come suggerimenti. */
     private ObservableList<Libro> selezionati = FXCollections.observableArrayList();
 
+    /** Ultimo libro base selezionato nella combo (per ricalcoli). */
     private Libro ultimoLibro;
 
-    @FXML private void initialize(){
-        if(SceneNavigator.getUserID() == null) {
+    /**
+     * Inizializza componenti, carica i libri dell’utente e imposta i listener.
+     */
+    @FXML
+    private void initialize() {
+        if (SceneNavigator.getUserID() == null) {
             SceneNavigator.logout();
             return;
         }
-        //abilito selezione multipla
+
         lvDisponibili.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         lvSelezionati.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        //TODO: metodo che carica tutti i libri disponibli da tutte le librerie del utente in
         caricaLibri(SceneNavigator.getUserID());
 
-        //mettiamo i libri nella combobox
         cbLibro.setItems(mieiLibri);
-        //cambia in automatico la lista dei libri nella combo
         cbLibro.valueProperty().addListener(this::onLibroChanged);
 
         lvDisponibili.setItems(disponibili);
         lvSelezionati.setItems(selezionati);
+
         ricalcolaDisponibli();
         refreshUI();
     }
 
-    private void onLibroChanged(javafx.beans.value.ObservableValue<? extends Libro> obs,
-        Libro oldV,
-        Libro newV) {
+    /**
+     * Ricalola liste in base al libro selezionato dal utente nella ComboBox.
+     */
+    private void onLibroChanged(javafx.beans.value.ObservableValue<? extends Libro> obs, Libro oldV, Libro newV) {
         ricalcolaDisponibli();
-}
-
-
-    @FXML private void onLogout(){
-        SceneNavigator.logout();
-    }
-    @FXML private void onAnnulla() {
-        SceneNavigator.switchToUtenteRegistrato();
     }
 
-    @FXML private void onAdd() {
-        if (cbLibro.getValue() == null) {   
+    /** Esegue il logout. */
+    @FXML private void onLogout() { SceneNavigator.logout(); }
+
+    /** Torna all’area utente. */
+    @FXML private void onAnnulla() { SceneNavigator.switchToUtenteRegistrato(); }
+
+    /**
+     * Aggiunge ai selezionati i libri scelti dalla lista disponibili
+     * (fino al limite massimo).
+     */
+    @FXML
+    private void onAdd() {
+        if (cbLibro.getValue() == null) {
             Helpers.showError("Scegli prima il libro a cui vuoi aggiungere suggerimenti", lblErr);
             return;
         }
-        //selezione corrente dei libri dalla lista disponibili
         List<Libro> scelti = List.copyOf(lvDisponibili.getSelectionModel().getSelectedItems());
-        if (scelti.isEmpty()) { return; }
+        if (scelti.isEmpty()) return;
 
-        for(Libro l : scelti) {
-            if(selezionati.size() >= LIMITE) break; //non più di 3 suggerimenti
-            if(!selezionati.contains(l)) selezionati.add(l); //no si possono aggiungere duplicati
+        for (Libro l : scelti) {
+            if (selezionati.size() >= LIMITE) break;
+            if (!selezionati.contains(l)) selezionati.add(l);
         }
 
-        ricalcolaDisponibli(); //aggiorniamo la lista disponibili per rimuovere i libri gia selezionati.
+        ricalcolaDisponibli();
         refreshUI();
-        lvDisponibili.getSelectionModel().clearSelection(); //deseleziono tutto
+        lvDisponibili.getSelectionModel().clearSelection();
     }
 
-    @FXML private void onRemove(){
-
-        //seleziono libri da rimuovere dai selezionati e li rimuovo
+    /**
+     * Rimuove dai selezionati i libri attualmente evidenziati.
+     */
+    @FXML
+    private void onRemove() {
         List<Libro> scelti = List.copyOf(lvSelezionati.getSelectionModel().getSelectedItems());
         selezionati.removeAll(scelti);
         ricalcolaDisponibli();
@@ -104,107 +119,111 @@ public class SuggerimentiController {
         lvSelezionati.getSelectionModel().clearSelection();
     }
 
-    @FXML private void onSalva(){
-
+    /**
+     * Salva i suggerimenti selezionati sul libro corrente, inviando l’aggiornamento al server.
+     */
+    @FXML
+    private void onSalva() {
         Libro lib = cbLibro.getValue();
 
-        if(lib == null) {
+        if (lib == null) {
             Helpers.showError("seleziona un libro dalla libreria", lblErr);
             return;
-        } 
+        }
         if (selezionati.isEmpty()) {
-            Helpers.showError("seleziona almeno un suggerimento",lblErr);
+            Helpers.showError("seleziona almeno un suggerimento", lblErr);
             return;
         }
 
         lib.getLibriConsigliati().clear();
         lib.getLibriConsigliati().addAll(selezionati);
-        //TODO: salvare sul DB il libro lib, che ora contiene i suggerimenti.
+
         boolean ok = false;
         try {
-        	InetAddress addr = InetAddress.getByName(null);
-        	Socket socket=new Socket(addr, 8999);
-        	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        	out.writeObject("CONSIGLIA LIBRI");
-        	out.writeObject(lib);
-        	ok = (boolean) in.readObject(); 
+            InetAddress addr = InetAddress.getByName(null);
+            Socket socket = new Socket(addr, 8999);
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in   = new ObjectInputStream(socket.getInputStream());
+            out.writeObject("CONSIGLIA LIBRI");
+            out.writeObject(lib);
+            ok = (boolean) in.readObject();
             out.close();
-    		in.close();
-    		socket.close();
-    	} catch (Exception e) {
-             
+            in.close();
+            socket.close();
+        } catch (Exception e) {
+            System.out.println(1);
         }
-        if (ok) {Helpers.showInfo("suggerimenti salvati con successo", lblErr);}
+        if (ok) {
+            Helpers.showInfo("suggerimenti salvati con successo", lblErr);
         }
-    
-        private void caricaLibri(String userId){
-            //TODO: unire al db e fornire tutti i libri presenti in tutte le librerie del utente
-            try {
-            	InetAddress addr = InetAddress.getByName(null);
-            	Socket socket=new Socket(addr, 8999);
-            	ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            	ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            	UtenteRegistrato ur = new UtenteRegistrato();
-            	ur.setUserId(SceneNavigator.getUserID());
-            	out.writeObject("CARICA LIBRI LIBRERIE CLIENT");
-            	out.writeObject(ur);
-            	
-            	List<Libro> normalList = (List<Libro>) in.readObject();
-            	mieiLibri = FXCollections.observableArrayList(normalList); 
-                out.close();
-        		in.close();
-        		socket.close();
-        	} catch (Exception e) {
-                 
-            }
-            mieiLibri.clear();
-            disponibili.clear();
-            selezionati.clear();
-            ultimoLibro = null;
-        }
-
-     private void ricalcolaDisponibli() {
-    	 Libro lib = cbLibro.getValue();
-    	 boolean cambiato = (lib != null && lib != ultimoLibro) || (lib == null && ultimoLibro != null);
-
-    	 if (cambiato) {
-        // resetta messaggio quando cambio libro
-    		 lblErr.setText("");
-    		 lblErr.setStyle(""); // opzionale, così togli anche il colore
-        
-        
-        
-        // Ricarica i selezionati dal libro scelto
-    		 selezionati.clear();
-    		 if (lib != null && lib.getLibriConsigliati() != null) {
-    			 for (Libro l : lib.getLibriConsigliati()) {
-    				 if (selezionati.size() >= LIMITE) break;
-    				 if (!selezionati.contains(l)) selezionati.add(l);
-    			 }
-    		 }
-    		 ultimoLibro = lib;
-    	 }
-
-    // Ricostruisci i disponibili
-    	 disponibili.clear();
-    	 for (Libro l : mieiLibri) {
-    		 if (lib != null && l == lib) continue;   // escludi il libro base
-    		 if (selezionati.contains(l)) continue;   // escludi già selezionati
-    		 disponibili.add(l);
-    	 }
-
-    	 refreshUI();
-     }
-
-
-    private void refreshUI(){
-    btnSalva.setText("Salva (" + selezionati.size() + "/" + LIMITE + ")");
-    btnSalva.setDisable(cbLibro.getValue() == null || selezionati.isEmpty());
     }
 
+    /**
+     * Carica i libri dell’utente e resetta le liste locali.
+     * @param userId identificativo dell’utente
+     */
+    private void caricaLibri(String userId) {
+        try {
+            InetAddress addr = InetAddress.getByName(null);
+            Socket socket = new Socket(addr, 8999);
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in   = new ObjectInputStream(socket.getInputStream());
+            UtenteRegistrato ur = new UtenteRegistrato();
+            ur.setUserId(SceneNavigator.getUserID());
+            out.writeObject("CARICA LIBRI LIBRERIE CLIENT");
+            out.writeObject(ur);
 
+            @SuppressWarnings("unchecked")
+            List<Libro> normalList = (List<Libro>) in.readObject();
+            mieiLibri = FXCollections.observableArrayList(normalList);
 
+            out.close();
+            in.close();
+            socket.close();
+        } catch (Exception e) {
+            System.out.println(1);
+        }
+        mieiLibri.clear();
+        disponibili.clear();
+        selezionati.clear();
+        ultimoLibro = null;
+    }
 
-    
+    /**
+     * Ricostruisce liste “disponibili” e “selezionati” in base al libro corrente.
+     * <p>Rispetta il limite massimo di suggerimenti.</p>
+     */
+    private void ricalcolaDisponibli() {
+        Libro lib = cbLibro.getValue();
+        boolean cambiato = (lib != null && lib != ultimoLibro) || (lib == null && ultimoLibro != null);
+
+        if (cambiato) {
+            lblErr.setText("");
+            lblErr.setStyle("");
+
+            selezionati.clear();
+            if (lib != null && lib.getLibriConsigliati() != null) {
+                for (Libro l : lib.getLibriConsigliati()) {
+                    if (selezionati.size() >= LIMITE) break;
+                    if (!selezionati.contains(l)) selezionati.add(l);
+                }
+            }
+            ultimoLibro = lib;
+        }
+
+        disponibili.clear();
+        for (Libro l : mieiLibri) {
+            if (lib != null && l == lib) continue;    // esclude il libro base
+            if (selezionati.contains(l)) continue;    // esclude già selezionati
+            disponibili.add(l);
+        }
+
+        refreshUI();
+    }
+
+    /** Aggiorna stato pulsante Salva (testo e abilitazione). */
+    private void refreshUI() {
+        btnSalva.setText("Salva (" + selezionati.size() + "/" + LIMITE + ")");
+        btnSalva.setDisable(cbLibro.getValue() == null || selezionati.isEmpty());
+    }
 }
