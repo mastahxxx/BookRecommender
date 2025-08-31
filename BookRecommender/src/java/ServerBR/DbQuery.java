@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import ClassiCondivise.Libreria;
 import ClassiCondivise.Libro;
 
 public class DbQuery extends DataBase {
@@ -80,8 +81,6 @@ public class DbQuery extends DataBase {
             pstm.setString(1, autore);
             pstm.setInt(2, anno);
             result = statement.executeQuery(query);
-            result.next();
-            System.out.println(result.getString(1));
             DbQuery classe = new DbQuery();
             metreturn = classe.resultSetToString(result);
         }
@@ -105,10 +104,50 @@ public class DbQuery extends DataBase {
             pstm.setString(1, email);
             pstm.setString(2, pass);
             result = statement.executeQuery(query);
-            result.next();
-            System.out.println(result.getString(1));
             DbQuery classe = new DbQuery();
             metreturn = classe.resultSetToString(result);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return metreturn;  
+    }
+    
+    public boolean UtentiRegistratiE(String email)
+    {
+        ResultSet result;
+        result = null;
+        String query;
+        boolean metreturn = false;
+        query = "select email from public.\"UtentiRegistrati\" where email = ?";
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(query);
+            pstm.setString(1, email);
+            result = statement.executeQuery(query);
+            metreturn = result.next();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return metreturn;  
+    }
+    
+    public boolean UtentiRegistratiUser(String userID)
+    {
+        ResultSet result;
+        result = null;
+        String query;
+        boolean metreturn = false;
+        query = "select email from public.\"UtentiRegistrati\" where userId = ?";
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(query);
+            pstm.setString(1, userID);
+            result = statement.executeQuery(query);
+            metreturn = result.next();
         }
         catch(Exception e)
         {
@@ -129,8 +168,6 @@ public class DbQuery extends DataBase {
             PreparedStatement pstm = connection.prepareStatement(query);
             pstm.setString(1, idLibro);
             result = statement.executeQuery(query);
-            result.next();
-            System.out.println(result.getString(1));
             DbQuery classe = new DbQuery();
             metreturn = classe.resultSetToString(result);
         }
@@ -141,23 +178,96 @@ public class DbQuery extends DataBase {
         return metreturn;  
     }
     
-    public String LibriValutazioni(String email)
+    public List<Libro> getLibroTOA(String titoloAutore)
     {
         ResultSet result;
         result = null;
         String query;
-        String metreturn = null;
-        query = "select codice_fiscale from public.\"UtentiRegistrati\" where email = ? and password = ?";
+        List<Libro> metreturn = null;
+        query = "select titolo, autore, anno_pubblicazione, stile, contenuto, gradevolezza, originalità, edizione, nota_stile, nota_contenuto, nota_gradevolezza, nota_originalità, nota_edizione, b.id_codice_fiscale \r\n"
+        		+ "from public.\"Libri\" as a, public.\"Valutazioni\" as b\r\n"
+        		+ "where titolo = ? or autore = ? and cod_libro = id_libro";
 
         try {
             PreparedStatement pstm = connection.prepareStatement(query);
-            pstm.setString(1, email);
-            pstm.setString(2, pass);
+            pstm.setString(1, titoloAutore);
+            pstm.setString(2, titoloAutore);
             result = statement.executeQuery(query);
-            result.next();
-            System.out.println(result.getString(1));
             DbQuery classe = new DbQuery();
-            metreturn = classe.resultSetToString(result);
+            metreturn = classe.resultSetToLibri(result);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return metreturn;  
+    }
+    
+    public List<Libro> getLibroAEA(String autore, String anno)
+    {
+        ResultSet result;
+        result = null;
+        String query;
+        List<Libro> metreturn = null;
+        query = "select titolo, autore, anno_pubblicazione, stile, contenuto, gradevolezza, originalità, edizione, nota_stile, nota_contenuto, nota_gradevolezza, nota_originalità, nota_edizione, b.id_codice_fiscale \r\n"
+        		+ "from public.\"Libri\" as a, public.\"Valutazioni\" as b\r\n"
+        		+ "where autore = ? and anno_pubblicazione = ? and cod_libro = id_libro";
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(query);
+            pstm.setString(1, autore);
+            pstm.setString(2, anno);
+            result = statement.executeQuery(query);
+            DbQuery classe = new DbQuery();
+            metreturn = classe.resultSetToLibri(result);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return metreturn;  
+    }
+    
+    public List<Libro> getLibroTAA(String titolo, String autore, String anno)
+    {
+        ResultSet result;
+        result = null;
+        String query;
+        List<Libro> metreturn = null;
+        query = "select titolo, autore, anno_pubblicazione, stile, contenuto, gradevolezza, originalità, edizione, nota_stile, nota_contenuto, nota_gradevolezza, nota_originalità, nota_edizione, b.id_codice_fiscale \r\n"
+        		+ "from public.\"Libri\" as a, public.\"Valutazioni\" as b\r\n"
+        		+ "where titolo = ? and autore = ? and anno_pubblicazione = ? and cod_libro = id_libro";
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(query);
+            pstm.setString(1, titolo);
+            pstm.setString(2, autore);
+            pstm.setString(3, anno);
+            result = statement.executeQuery(query);
+            DbQuery classe = new DbQuery();
+            metreturn = classe.resultSetToLibri(result);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return metreturn;  
+    }
+    
+    public List<Libreria> getLibreriaNome(String nomeLibreria)
+    {
+        ResultSet result;
+        result = null;
+        String query;
+        List<Libreria> metreturn = null;
+        query = "select nome_libreria from public.\"Librerie\" where nome_libreria = ?";
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(query);
+            pstm.setString(1, nomeLibreria);
+            result = statement.executeQuery(query);
+            DbQuery classe = new DbQuery();
+            metreturn = classe.resultSetToLibreria(result);
         }
         catch(Exception e)
         {
@@ -231,6 +341,22 @@ public class DbQuery extends DataBase {
             libri.add(libro);                   // Aggiungi l’oggetto alla lista
         }
         return libri; // Ritorna la lista (vuota se non ci sono risultati)
+    }
+    
+    public static List<Libreria> resultSetToLibreria(ResultSet result) throws SQLException {
+        List<Libreria> librerie = new ArrayList<>();   // Lista che conterrà i risultati
+
+        if (result == null) return librerie;           // Se il ResultSet è nullo, restituisci lista vuota
+
+        while (result.next()) {
+            Libreria libreria = new Libreria();          // Crea un nuovo oggetto Libro per ogni riga
+
+            libreria.setNome(result.getString("nome_libreria"));
+            libreria.setControllo(true);
+
+            librerie.add(libreria);                   // Aggiungi l’oggetto alla lista
+        }
+        return librerie; // Ritorna la lista (vuota se non ci sono risultati)
     }
 
 
