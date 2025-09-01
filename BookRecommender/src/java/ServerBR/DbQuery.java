@@ -6,10 +6,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import ClassiCondivise.Libro;
 
 public class DbQuery extends DataBase {
 
@@ -123,36 +119,11 @@ public class DbQuery extends DataBase {
         result = null;
         String query;
         String metreturn = null;
-        query = "select avg(stile), avg(contenuto), avg(gradevolezza), avg(originalità), avg(edizione) from public.\"Valutazioni\" where id_libro = ?";
+        query = "select avg(stile), avg(contenuto), avg(gradevolezza), avg(originalità), avg(edizione), avg(voto_finale) from public.\"Valutazioni\" where id_libro = ?";
 
         try {
             PreparedStatement pstm = connection.prepareStatement(query);
             pstm.setString(1, idLibro);
-            result = statement.executeQuery(query);
-            result.next();
-            System.out.println(result.getString(1));
-            DbQuery classe = new DbQuery();
-            metreturn = classe.resultSetToString(result);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        return metreturn;  
-    }
-    
-    public String LibriValutazioni(String email)
-    {
-        ResultSet result;
-        result = null;
-        String query;
-        String metreturn = null;
-        query = "select codice_fiscale from public.\"UtentiRegistrati\" where email = ? and password = ?";
-
-        try {
-            PreparedStatement pstm = connection.prepareStatement(query);
-            pstm.setString(1, email);
-            pstm.setString(2, pass);
             result = statement.executeQuery(query);
             result.next();
             System.out.println(result.getString(1));
@@ -204,35 +175,6 @@ public class DbQuery extends DataBase {
 
         return sb.toString();
     }
-    
-    public static List<Libro> resultSetToLibri(ResultSet result) throws SQLException {
-        List<Libro> libri = new ArrayList<>();   // Lista che conterrà i risultati
-
-        if (result == null) return libri;           // Se il ResultSet è nullo, restituisci lista vuota
-
-        while (result.next()) {
-            Libro libro = new Libro();          // Crea un nuovo oggetto Libro per ogni riga
-
-            libro.setTitolo(result.getString("titolo"));
-            libro.setAutore(result.getString("autore"));
-            libro.setAnnoPubblicazione(result.getString("anno_pubblicazione"));
-            libro.setStile(result.getInt("stile"));
-            libro.setContenuto(result.getInt("contenuto"));
-            libro.setGradevolezza(result.getInt("gradevolezza"));
-            libro.setOriginalita(result.getInt("originalità"));
-            libro.setEdizione(result.getInt("edizione"));
-            libro.setNoteStile(result.getString("nota_stile"), result.getString("id_codice_fiscale"));
-            libro.setNoteContenuto(result.getString("nota_contenuto"), result.getString("id_codice_fiscale"));
-            libro.setNoteGradevolezza(result.getString("nota_gradevolezza"), result.getString("id_codice_fiscale"));
-            libro.setNoteOriginalita(result.getString("nota_originalità"), result.getString("id_codice_fiscale"));
-            libro.setNoteEdizione(result.getString("nota_edizione"), result.getString("id_codice_fiscale"));
-            libro.setControllo(true);
-
-            libri.add(libro);                   // Aggiungi l’oggetto alla lista
-        }
-        return libri; // Ritorna la lista (vuota se non ci sono risultati)
-    }
-
 
     
     //Andre utilizza questo metodo per impostare i libri
