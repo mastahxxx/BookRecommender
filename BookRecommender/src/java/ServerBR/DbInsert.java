@@ -82,7 +82,7 @@ public class DbInsert extends DataBase {
         }
     }
 
-    public void loadValutazioni(int idLibro, String idcf, int stile, int contenuto, int gradevolezza, int originalita, int edizione, int votoF, String notaStile, String notaContenuto, String notaGradevolezza, String notaOriginalita, String notaEdizione) {
+    public void loadValutazioni(int idLibro, String idcf, int stile, int contenuto, int gradevolezza, int originalita, int edizione, int votoF) {
 
         try {
             query = "insert into public.\"Valutazioni\" values (";
@@ -93,12 +93,7 @@ public class DbInsert extends DataBase {
             query = query + "'" + gradevolezza + "',";
             query = query + "'" + originalita + "',";
             query = query + "'" + edizione + "',";
-            query = query + "'" + votoF + "',";
-            query = query + "'" + notaStile + "',";
-            query = query + "'" + notaContenuto + "',";
-            query = query + "'" + notaGradevolezza + "',";
-            query = query + "'" + notaOriginalita + "',";
-            query = query + "'" + notaEdizione + "')";
+            query = query + "'" + votoF + "')";
             statement.executeQuery(query);
         }
         catch(Exception e)
